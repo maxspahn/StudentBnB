@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_search"
+        android:enabled="true"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="@string/text_search"/>
+    <item
+        android:id="@+id/action_message"
+        android:enabled="true"
+        android:icon="@drawable/ic_email_white_24dp"
+        android:title="@string/text_message"/>
+    <item
+        android:id="@+id/action_trip"
+        android:enabled="true"
+        android:icon="@drawable/ic_local_airport_white_24dp"
+        android:title="@string/text_trip"/>
+    <item
+        android:id="@+id/action_profile"
+        android:enabled="true"
+        android:icon="@drawable/ic_person_white_24dp"
+        android:title="@string/text_profile" />
+
+</menu>

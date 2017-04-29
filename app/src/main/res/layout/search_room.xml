@@ -1,44 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <GridLayout
-        android:columnCount="2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tv_destination"
-            android:textSize="22sp"
-            android:text="Destination"
-            android:padding="10sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:columnCount="2">
+
         <EditText
             android:id="@+id/et_destination"
-            android:textSize="22sp"
-            android:hint="Enter your destination"
-            android:padding="10sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <EditText
-            android:id="@+id/et_initdate"
-            android:textSize="22sp"
-            android:hint="init date"
-            android:padding="10sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="showInitDatePickerDialog"/>
-        <EditText
-            android:id="@+id/et_findate"
-            android:textSize="22sp"
-            android:hint="final date"
+            android:hint="Destination"
             android:padding="10sp"
+            android:textSize="22sp"/>
+
+        <Button
+            android:id="@+id/b_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="showFinDatePickerDialog"
-            android:enabled="false"/>
+            android:padding="10sp"
+            android:text="Search"
+            android:textSize="22sp"/>
+
+        <Button
+            android:id="@+id/b_initdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10sp"
+            android:text="init date"
+            android:textSize="22sp"/>
+
+        <Button
+            android:id="@+id/b_findate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10sp"
+            android:text="final date"
+            android:textSize="22sp"/>
+
     </GridLayout>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/bottom_navigation_main"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

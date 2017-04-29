@@ -4,21 +4,29 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.DatePickerDialog;
+import android.app.FragmentManager;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class TimePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private String date = null;
-    Activity a;
-    EditText auxInit;
-    EditText auxFin;
+    View a;
+    private static Date initDate = null;
+    private static Date finalDate = null;
+    private static Button initButton = null;
+    private static Button finButton = null;
     boolean switcher;
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -33,28 +41,39 @@ public class TimePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        date = String.valueOf(day) + "/" + String.valueOf(month) + "/" +String.valueOf(year);
+        date = day + "/" + month + "/" + year;
         if(switcher == true){
-            auxInit = (EditText) a.findViewById(R.id.et_initdate);
-            auxInit.setText(date);
-        }else {
-            auxInit = (EditText) a.findViewById(R.id.et_initdate);
-            String initDate = String.valueOf(auxInit.getText());
-            String[] arrayDate = initDate.split("/");
-            if(arrayDate.length == 3){
-                if(Integer.valueOf(arrayDate[0]) < day || Integer.valueOf(arrayDate[1]) < month || Integer.valueOf(arrayDate[2]) < year){
-                    auxFin = (EditText) a.findViewById(R.id.et_findate);
-                    auxFin.setText(date);
+            initButton = (Button) a.findViewById(R.id.b_initdate);
+            initDate = new Date(year,month,day);
+            System.out.println(finalDate);
+            if(finalDate != null){
+                String finalString = String.valueOf(finButton.getText());
+                String[] arrayDate = finalString.split("/");
+                finalDate = new Date(Integer.valueOf(arrayDate[2]),Integer.valueOf(arrayDate[1]),Integer.valueOf(arrayDate[0]));
+                if(initDate.before(finalDate)){
+                    initButton.setText(date);
                 }else{
-                    final Calendar c = Calendar.getInstance();
-                    int new_year = c.get(Calendar.YEAR);
-                    int new_month = c.get(Calendar.MONTH);
-                    int new_day = c.get(Calendar.DAY_OF_MONTH);
-
-                    // Create a new instance of DatePickerDialog and return it
-                    Dialog d = new DatePickerDialog(getActivity(), this, new_year, new_month, new_day);
-                    d.show();
+                    initButton.setText(finButton.getText());
+                    finButton.setText(date);
                 }
+            }else {
+                initButton.setText(date);
+            }
+        }else {
+            finButton = (Button) a.findViewById(R.id.b_findate);
+            finalDate = new Date(year,month,day);
+            if(initDate != null){
+                String initString = String.valueOf(initButton.getText());
+                String[] arrayDate = initString.split("/");
+                initDate = new Date(Integer.valueOf(arrayDate[2]),Integer.valueOf(arrayDate[1]),Integer.valueOf(arrayDate[0]));
+                if(finalDate.after(initDate)){
+                    finButton.setText(date);
+                }else{
+                    finButton.setText(initButton.getText());
+                    initButton.setText(date);
+                }
+            }else{
+                finButton.setText(date);
             }
         }
     }
@@ -63,8 +82,8 @@ public class TimePickerFragment extends DialogFragment implements DatePickerDial
         return date;
     }
 
-    public void setActivity(Activity activity, boolean b){
-        a = activity;
+    public void setActivity(View v, boolean b){
+        a = v;
         switcher = b;
     }
 }

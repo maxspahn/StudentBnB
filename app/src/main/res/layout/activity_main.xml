@@ -22,6 +22,7 @@
         android:layout_height="49dp"
         android:text="Login"
         tools:layout_editor_absoluteX="127dp"
-        tools:layout_editor_absoluteY="297dp" />
+        tools:layout_editor_absoluteY="297dp"
+        android:onClick="onClick"/>
 
 </android.support.constraint.ConstraintLayout>

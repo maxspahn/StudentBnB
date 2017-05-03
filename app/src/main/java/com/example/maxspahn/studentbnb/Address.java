@@ -1,5 +1,9 @@
 package com.example.maxspahn.studentbnb;
 
+import android.os.AsyncTask;
+
+import java.net.URL;
+
 /**
  * Created by Pedro León on 29/04/2017.
  */

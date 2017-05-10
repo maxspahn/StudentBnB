@@ -3,6 +3,7 @@ package com.example.maxspahn.studentbnb;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -16,13 +17,20 @@ public class TimePickerFragment extends DialogFragment implements DatePickerDial
     private static Date initDate = null;
     private static Date finalDate = null;
     boolean switcher;
-    dateButtonLitener buttonLitener;
+    DateButtonLitener buttonLitener;
 
-    public interface dateButtonLitener{
+    public interface DateButtonLitener{
         public void setInitDateButtonText(String date);
         public void setFinDateButtonText(String date);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof DateButtonLitener){
+            buttonLitener = (DateButtonLitener) context;
+        }
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

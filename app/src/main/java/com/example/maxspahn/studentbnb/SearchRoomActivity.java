@@ -23,7 +23,7 @@ composed by 3 main parts
 - room offers (output data)
 - other activities (to travel through the appication)
  */
-public class SearchRoomActivity extends FragmentActivity implements RoomAdapterOnClickHandler,TimePickerFragment.dateButtonLitener {
+public class SearchRoomActivity extends FragmentActivity implements RoomAdapterOnClickHandler,TimePickerFragment.DateButtonLitener {
 
     private EditText destinationEditText;
     private Button searchButton;

@@ -16,10 +16,9 @@ public class RoomReservationActivity extends Activity {
     TextView roomDataTextView;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_reservation);
-
         Intent i = getIntent();
         String roomData = i.getStringExtra("roomData");
         System.out.println(roomData);

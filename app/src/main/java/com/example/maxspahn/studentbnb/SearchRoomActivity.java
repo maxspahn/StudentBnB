@@ -1,5 +1,6 @@
 package com.example.maxspahn.studentbnb;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,12 +23,12 @@ composed by 3 main parts
 - room offers (output data)
 - other activities (to travel through the appication)
  */
-public class SearchRoomActivity extends FragmentActivity implements RoomAdapterOnClickHandler {
+public class SearchRoomActivity extends FragmentActivity implements RoomAdapterOnClickHandler,TimePickerFragment.dateButtonLitener {
 
     private EditText destinationEditText;
     private Button searchButton;
-    private Button initdateButton;
-    private Button findateButton;
+    protected static Button initdateButton;
+    protected static Button findateButton;
 
     private RecyclerView mRecyclerView;
     private RoomAdapter mRoomAdapter; // adapter to fill recycler view with data
@@ -63,7 +64,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
             public void onClick(View v) {
                 TimePickerFragment newFragment = new TimePickerFragment();
                 newFragment.show(getFragmentManager(), "timePicker");
-                newFragment.setActivity(initdateButton,true);
+                newFragment.setActivity(true);
             }
         });
 
@@ -72,7 +73,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
             public void onClick(View v) {
                 TimePickerFragment newFragment = new TimePickerFragment();
                 newFragment.show(getFragmentManager(), "timePicker");
-                newFragment.setActivity(findateButton,false);
+                newFragment.setActivity(false);
             }
         });
         /*
@@ -158,5 +159,15 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     public void ShowMessage(String message){
         Context context = this;
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setInitDateButtonText(String date) {
+        initdateButton.setText(date);
+    }
+
+    @Override
+    public void setFinDateButtonText(String date) {
+        findateButton.setText(date);
     }
 }

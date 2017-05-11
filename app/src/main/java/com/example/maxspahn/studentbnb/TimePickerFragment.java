@@ -17,9 +17,9 @@ public class TimePickerFragment extends DialogFragment implements DatePickerDial
     private static Date initDate = null;
     private static Date finalDate = null;
     boolean switcher;
-    DateButtonLitener buttonLitener;
+    DateButtonListener buttonListener;
 
-    public interface DateButtonLitener{
+    public interface DateButtonListener{
         public void setInitDateButtonText(String date);
         public void setFinDateButtonText(String date);
     }
@@ -27,8 +27,8 @@ public class TimePickerFragment extends DialogFragment implements DatePickerDial
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof DateButtonLitener){
-            buttonLitener = (DateButtonLitener) context;
+        if(context instanceof DateButtonListener){
+            buttonListener = (DateButtonListener) context;
         }
     }
 
@@ -53,13 +53,13 @@ public class TimePickerFragment extends DialogFragment implements DatePickerDial
                 String[] arrayDate = finalString.split("/");
                 finalDate = new Date(Integer.valueOf(arrayDate[2]),Integer.valueOf(arrayDate[1]),Integer.valueOf(arrayDate[0]));
                 if(initDate.before(finalDate)){
-                    buttonLitener.setInitDateButtonText(date);
+                    buttonListener.setInitDateButtonText(date);
                 }else{
-                    buttonLitener.setInitDateButtonText(SearchRoomActivity.findateButton.getText().toString());
-                    buttonLitener.setFinDateButtonText(date);
+                    buttonListener.setInitDateButtonText(SearchRoomActivity.findateButton.getText().toString());
+                    buttonListener.setFinDateButtonText(date);
                 }
             }else {
-                buttonLitener.setInitDateButtonText(date);
+                buttonListener.setInitDateButtonText(date);
             }
         }else {
             finalDate = new Date(year,month,day);
@@ -68,13 +68,13 @@ public class TimePickerFragment extends DialogFragment implements DatePickerDial
                 String[] arrayDate = initString.split("/");
                 initDate = new Date(Integer.valueOf(arrayDate[2]),Integer.valueOf(arrayDate[1]),Integer.valueOf(arrayDate[0]));
                 if(finalDate.after(initDate)){
-                    buttonLitener.setFinDateButtonText(date);
+                    buttonListener.setFinDateButtonText(date);
                 }else{
-                    buttonLitener.setFinDateButtonText(SearchRoomActivity.initdateButton.getText().toString());
-                    buttonLitener.setInitDateButtonText(date);
+                    buttonListener.setFinDateButtonText(SearchRoomActivity.initdateButton.getText().toString());
+                    buttonListener.setInitDateButtonText(date);
                 }
             }else{
-                buttonLitener.setFinDateButtonText(date);
+                buttonListener.setFinDateButtonText(date);
             }
         }
     }

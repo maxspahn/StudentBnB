@@ -10,19 +10,19 @@ public class Residence {
     private String name;
     private Address address;
     private boolean parking;
-    private HashMap<Integer,Room> listOfRooms;
+    private HashMap<String,User> listOfUsers;
 
     public Residence(String residenceName, String c,String cit, String type, String streetName, String number, int code){
         name = residenceName;
         address = new Address(c,cit,type,streetName,number,code);
-        listOfRooms = new HashMap<Integer,Room>();
+        listOfUsers = new HashMap<String,User>();
     }
 
-    public void addRoom(Room r){
-        if(listOfRooms.values().contains(r)){
+    public void addUser(User u){
+        if(listOfUsers.values().contains(u)){
             // display room already added to residence
         }else{
-            listOfRooms.put(r.getNumber(),r);
+            listOfUsers.put(u.getUsername(),u);
         }
     }
 }

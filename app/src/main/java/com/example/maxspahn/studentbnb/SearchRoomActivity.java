@@ -1,6 +1,5 @@
 package com.example.maxspahn.studentbnb;
 
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,12 +22,12 @@ composed by 3 main parts
 - room offers (output data)
 - other activities (to travel through the appication)
  */
-public class SearchRoomActivity extends FragmentActivity implements RoomAdapterOnClickHandler,TimePickerFragment.DateButtonLitener {
+public class SearchRoomActivity extends FragmentActivity implements RoomAdapterOnClickHandler,TimePickerFragment.DateButtonListener {
 
     private EditText destinationEditText;
     private Button searchButton;
-    protected static Button initdateButton;
-    protected static Button findateButton;
+    protected Button initialDateButton;
+    protected Button finalDateButton;
 
     private RecyclerView mRecyclerView;
     private RoomAdapter mRoomAdapter; // adapter to fill recycler view with data
@@ -46,34 +45,34 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
          */
         destinationEditText = (EditText) findViewById(R.id.et_destination);
         searchButton = (Button) findViewById(R.id.b_search);
-        initdateButton = (Button) findViewById(R.id.b_initdate);
-        findateButton = (Button) findViewById(R.id.b_findate);
+        initialDateButton = (Button) findViewById(R.id.b_initdate);
+        finalDateButton = (Button) findViewById(R.id.b_findate);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(destinationEditText.getText().toString().equals("") || initdateButton.getText().toString().toUpperCase().equals("INIT DATE") || findateButton.getText().toString().toUpperCase().equals("FINAL DATE")){
+                if(destinationEditText.getText().toString().equals("") || initialDateButton.getText().toString().toUpperCase().equals("INIT DATE") || finalDateButton.getText().toString().toUpperCase().equals("FINAL DATE")){
                     ShowMessage("Fill all fields");
                 } else{
                     loadRoomData();
                 }
             }
         });
-        initdateButton.setOnClickListener(new View.OnClickListener() {
+        initialDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerFragment newFragment = new TimePickerFragment();
                 newFragment.show(getFragmentManager(), "timePicker");
-                newFragment.setActivity(true);
+                newFragment.setActivity(true, finalDateButton.getText().toString());
             }
         });
 
-        findateButton.setOnClickListener(new View.OnClickListener() {
+        finalDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerFragment newFragment = new TimePickerFragment();
                 newFragment.show(getFragmentManager(), "timePicker");
-                newFragment.setActivity(false);
+                newFragment.setActivity(false, initialDateButton.getText().toString());
             }
         });
         /*
@@ -117,16 +116,16 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         /*
          check destination
           */
-        for(int i = 0; i<roomData.length; i++){
-            if(roomData[i].toLowerCase().equals(destinationEditText.getText().toString().toLowerCase())){
+        for (String aRoomData : roomData) {
+            if (aRoomData.toLowerCase().equals(destinationEditText.getText().toString().toLowerCase())) {
                 newLength++;
             }
         }
         String[] dataToDisplay = new String[newLength];
         int count = 0;
-        for(int i = 0; i<roomData.length; i++){
-            if(roomData[i].toLowerCase().equals(destinationEditText.getText().toString().toLowerCase())){
-                dataToDisplay[count] = roomData[i];
+        for (String aRoomData : roomData) {
+            if (aRoomData.toLowerCase().equals(destinationEditText.getText().toString().toLowerCase())) {
+                dataToDisplay[count] = aRoomData;
                 count++;
             }
         }
@@ -163,11 +162,11 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
 
     @Override
     public void setInitDateButtonText(String date) {
-        initdateButton.setText(date);
+        initialDateButton.setText(date);
     }
 
     @Override
     public void setFinDateButtonText(String date) {
-        findateButton.setText(date);
+        finalDateButton.setText(date);
     }
 }

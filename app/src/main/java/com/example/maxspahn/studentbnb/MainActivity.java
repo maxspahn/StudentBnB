@@ -11,6 +11,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     public Button loginButton;
+    public static User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

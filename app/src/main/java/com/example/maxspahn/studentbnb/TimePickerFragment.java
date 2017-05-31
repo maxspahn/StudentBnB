@@ -5,23 +5,21 @@ import android.app.DialogFragment;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.DatePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class TimePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-    private String date = null;
-    private static Date initDate = null;
-    private static Date finalDate = null;
     boolean switcher;
+    String other;
     DateButtonListener buttonListener;
 
-    public interface DateButtonListener{
-        public void setInitDateButtonText(String date);
-        public void setFinDateButtonText(String date);
+    interface DateButtonListener{
+        void setInitDateButtonText(String date);
+        void setFinDateButtonText(String date);
     }
 
     @Override
@@ -43,47 +41,69 @@ public class TimePickerFragment extends DialogFragment implements DatePickerDial
         // Create a new instance of DatePickerDialog and return it
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
-
+    /*
+    method run once 'OK' is clicked
+     */
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        date = day + "/" + month + "/" + year;
-        if(switcher == true){
-            initDate = new Date(year,month,day);
-            if(finalDate != null){
-                String finalString = String.valueOf(SearchRoomActivity.findateButton.getText());
+        String sDay = Integer.toString(day);
+        String sMonth = Integer.toString(month);
+        if(day<10){
+            sDay = "0" + day;
+        }
+        if(month<10) {
+            sMonth = "0" + month;
+        }
+        String date = sDay + "/" + sMonth + "/" + year; // save selected date to String
+        /*
+        if sentence to differentiate between initial date and final date, switcher parameter is set in setActivity()
+        - true = initial date
+        - false = final date
+         */
+        if(switcher){
+            Date initDate = new Date(year,month,day);
+            buttonListener.setInitDateButtonText(date);
+            /*
+            if sentence to verify id there is an existing final date
+            if so we must verify that initial date entered is before this pre-existent final date
+             */
+            if(!other.toLowerCase().equals("final date")){
+                String finalString = other;
                 String[] arrayDate = finalString.split("/");
-                finalDate = new Date(Integer.valueOf(arrayDate[2]),Integer.valueOf(arrayDate[1]),Integer.valueOf(arrayDate[0]));
-                if(initDate.before(finalDate)){
-                    buttonListener.setInitDateButtonText(date);
-                }else{
-                    buttonListener.setInitDateButtonText(SearchRoomActivity.findateButton.getText().toString());
-                    buttonListener.setFinDateButtonText(date);
+                Date finalDate = new Date(Integer.valueOf(arrayDate[2]),Integer.valueOf(arrayDate[1]),Integer.valueOf(arrayDate[0]));
+                /*
+                in case initial date is after then we re-ask for an final date
+                 */
+                if(initDate.after(finalDate)){
+                    TimePickerFragment newFragment = new TimePickerFragment();
+                    newFragment.show(getFragmentManager(), "timePicker");
+                    newFragment.setActivity(false, date);
                 }
-            }else {
-                buttonListener.setInitDateButtonText(date);
             }
         }else {
-            finalDate = new Date(year,month,day);
-            if(initDate != null){
-                String initString = String.valueOf(SearchRoomActivity.initdateButton.getText());
+            Date finalDate = new Date(year,month,day);
+            buttonListener.setFinDateButtonText(date);
+            /*
+            if sentence to verify id there is an existing initial date
+            if so we must verify that initial date entered is after this pre-existent initial date
+             */
+            if(!other.toLowerCase().equals("init date")){
+                String initString = other;
                 String[] arrayDate = initString.split("/");
-                initDate = new Date(Integer.valueOf(arrayDate[2]),Integer.valueOf(arrayDate[1]),Integer.valueOf(arrayDate[0]));
-                if(finalDate.after(initDate)){
-                    buttonListener.setFinDateButtonText(date);
-                }else{
-                    buttonListener.setFinDateButtonText(SearchRoomActivity.initdateButton.getText().toString());
-                    buttonListener.setInitDateButtonText(date);
+                Date initDate = new Date(Integer.valueOf(arrayDate[2]),Integer.valueOf(arrayDate[1]),Integer.valueOf(arrayDate[0]));
+                /*
+                in case final date is before then we re-ask for an initial date
+                 */
+                if(finalDate.before(initDate)){
+                    TimePickerFragment newFragment = new TimePickerFragment();
+                    newFragment.show(getFragmentManager(), "timePicker");
+                    newFragment.setActivity(true, date);
                 }
-            }else{
-                buttonListener.setFinDateButtonText(date);
             }
         }
     }
 
-    public String getDate(){
-        return date;
-    }
-
-    public void setActivity( boolean b){
+    public void setActivity(boolean b, String otherDate){
         switcher = b;
+        other = otherDate;
     }
 }

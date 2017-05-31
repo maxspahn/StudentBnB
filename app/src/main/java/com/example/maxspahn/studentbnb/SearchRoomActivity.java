@@ -1,6 +1,5 @@
 package com.example.maxspahn.studentbnb;
 
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,19 +15,25 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.example.maxspahn.studentbnb.RoomAdapter.RoomAdapterOnClickHandler;
 
+import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+
 /*
 secondary activity accessed after log in activity
 composed by 3 main parts
 - reservation details (input data)
 - room offers (output data)
-- other activities (to travel through the appication)
+- other activities (to travel through the application)
  */
 public class SearchRoomActivity extends FragmentActivity implements RoomAdapterOnClickHandler,TimePickerFragment.DateButtonListener {
 
     private EditText destinationEditText;
     private Button searchButton;
-    protected static Button initdateButton;
-    protected static Button findateButton;
+    protected Button initialDateButton;
+    protected Button finalDateButton;
 
     private RecyclerView mRecyclerView;
     private RoomAdapter mRoomAdapter; // adapter to fill recycler view with data
@@ -46,34 +51,34 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
          */
         destinationEditText = (EditText) findViewById(R.id.et_destination);
         searchButton = (Button) findViewById(R.id.b_search);
-        initdateButton = (Button) findViewById(R.id.b_initdate);
-        findateButton = (Button) findViewById(R.id.b_findate);
+        initialDateButton = (Button) findViewById(R.id.b_initdate);
+        finalDateButton = (Button) findViewById(R.id.b_findate);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(destinationEditText.getText().toString().equals("") || initdateButton.getText().toString().toUpperCase().equals("INIT DATE") || findateButton.getText().toString().toUpperCase().equals("FINAL DATE")){
+                if(destinationEditText.getText().toString().equals("") || initialDateButton.getText().toString().toUpperCase().equals("INIT DATE") || finalDateButton.getText().toString().toUpperCase().equals("FINAL DATE")){
                     ShowMessage("Fill all fields");
                 } else{
                     loadRoomData();
                 }
             }
         });
-        initdateButton.setOnClickListener(new View.OnClickListener() {
+        initialDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerFragment newFragment = new TimePickerFragment();
                 newFragment.show(getFragmentManager(), "timePicker");
-                newFragment.setActivity(true);
+                newFragment.setActivity(true, finalDateButton.getText().toString());
             }
         });
 
-        findateButton.setOnClickListener(new View.OnClickListener() {
+        finalDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TimePickerFragment newFragment = new TimePickerFragment();
                 newFragment.show(getFragmentManager(), "timePicker");
-                newFragment.setActivity(false);
+                newFragment.setActivity(false, initialDateButton.getText().toString());
             }
         });
         /*
@@ -98,49 +103,94 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
                 switch (item.getItemId()) {
                     case R.id.action_search:
                         // call SearchRoom activity
-                    case R.id.action_message:
-                        // call Message activity
+                        break;
                     case R.id.action_trip:
                         // call Trip activity
+                        break;
                     case R.id.action_profile:
-                        // call Profile activity
+                        launchProfileActivity();
+                        break;
                 }
                 return true;
             }
         });
     }
 
-    private void loadRoomData(){
+    private void loadRoomData() {
         showRoomDataView();
-        String[] roomData = new String[] {"Centrale","Madrid","Cologne","London","Rome","Paris","Copenhaguen","Lund","Amsterdam", "Bruxelles", "Munich", "Barcelone"};
-        int newLength = 0;
-        /*
-         check destination
-          */
-        for(int i = 0; i<roomData.length; i++){
-            if(roomData[i].toLowerCase().equals(destinationEditText.getText().toString().toLowerCase())){
-                newLength++;
+        System.out.println(initialDateButton.getText().toString());
+        System.out.println(finalDateButton.getText().toString());
+        ArrayList<User> userData = new ArrayList<>();
+        User newUser1 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser2 = new User("Arturo", "Garrido", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser3 = new User("Max", "Spahn", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser4 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser5 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser6 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser7 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser8 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser9 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser10 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser11 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser12 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        newUser1.registerRoom("E201");
+        newUser2.registerRoom("E202");
+        newUser3.registerRoom("E203");
+        newUser4.registerRoom("E204");
+        newUser5.registerRoom("E205");
+        newUser6.registerRoom("E206");
+        newUser7.registerRoom("E207");
+        newUser8.registerRoom("E208");
+        newUser9.registerRoom("E209");
+        newUser10.registerRoom("E210");
+        newUser11.registerRoom("E211");
+        newUser12.registerRoom("E212");
+        Residence newResidence = new Residence("ECP", "Paris");
+        newUser1.setResidence(newResidence);
+        newUser2.setResidence(newResidence);
+        newUser3.setResidence(newResidence);
+        newUser4.setResidence(newResidence);
+        newUser5.setResidence(newResidence);
+        newUser6.setResidence(newResidence);
+        newUser7.setResidence(newResidence);
+        newUser8.setResidence(newResidence);
+        newUser9.setResidence(newResidence);
+        newUser10.setResidence(newResidence);
+        newUser11.setResidence(newResidence);
+        newUser12.setResidence(newResidence);
+        userData.add(newUser1);
+        userData.add(newUser2);
+        userData.add(newUser3);
+        userData.add(newUser4);
+        userData.add(newUser5);
+        userData.add(newUser6);
+        userData.add(newUser7);
+        userData.add(newUser8);
+        userData.add(newUser9);
+        userData.add(newUser10);
+        userData.add(newUser11);
+        userData.add(newUser12);
+        ArrayList<User> dataToDisplay = new ArrayList<>();
+
+        for(User u : userData){
+            if(u.getResidence().getCity().toLowerCase().equals(destinationEditText.getText().toString().toLowerCase())){
+                dataToDisplay.add(u);
+                try{
+                    if(u.isAvailable(initialDateButton.getText().toString(), finalDateButton.getText().toString())){
+                        dataToDisplay.add(u);
+                    }
+                }catch (ParseException e){
+                    System.out.println(e.getMessage());
+                }
             }
+
         }
-        String[] dataToDisplay = new String[newLength];
-        int count = 0;
-        for(int i = 0; i<roomData.length; i++){
-            if(roomData[i].toLowerCase().equals(destinationEditText.getText().toString().toLowerCase())){
-                dataToDisplay[count] = roomData[i];
-                count++;
-            }
-        }
-        /*
-        check dates availability
-         */
-        //TODO 1 Check dates availability
-        /*
-        if no room found, show toast
-         */
-        if(dataToDisplay.length == 0){
+
+        if(dataToDisplay.size() == 0){
             ShowMessage("No room available.");
+        }else{
+            mRoomAdapter.setRoomData(dataToDisplay);
         }
-        mRoomAdapter.setRoomData(dataToDisplay);
     }
 
     private void showRoomDataView(){
@@ -149,9 +199,9 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
 
 
     @Override
-    public void onClick(String roomData) {
+    public void onClick(User u) {
         Intent intent = new Intent(this, RoomReservationActivity.class);
-        intent.putExtra("roomData", roomData);
+        intent.putExtra("user", u);
         startActivity(intent);
 
     }
@@ -161,13 +211,18 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
+    private void launchProfileActivity(){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void setInitDateButtonText(String date) {
-        initdateButton.setText(date);
+        initialDateButton.setText(date);
     }
 
     @Override
     public void setFinDateButtonText(String date) {
-        findateButton.setText(date);
+        finalDateButton.setText(date);
     }
 }

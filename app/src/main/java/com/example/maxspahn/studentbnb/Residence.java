@@ -8,21 +8,55 @@ import java.util.HashMap;
 
 public class Residence {
     private String name;
-    private Address address;
+    //TODO add attribute indicating address to be used by map
+    private String city;
     private boolean parking;
-    private HashMap<Integer,Room> listOfRooms;
+    private HashMap<String,User> listOfUsers;
 
-    public Residence(String residenceName, String c,String cit, String type, String streetName, String number, int code){
+    public Residence(String residenceName, String cit){
         name = residenceName;
-        address = new Address(c,cit,type,streetName,number,code);
-        listOfRooms = new HashMap<Integer,Room>();
+        city = cit;
+        listOfUsers = new HashMap<String,User>();
     }
 
-    public void addRoom(Room r){
-        if(listOfRooms.values().contains(r)){
-            // display room already added to residence
+    public void addUser(User u){
+        if(listOfUsers.values().contains(u)){
+            //TODO display room already added to residence
         }else{
-            listOfRooms.put(r.getNumber(),r);
+            listOfUsers.put(u.getUsername(),u);
+            u.setResidence(this);
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public boolean isParking() {
+        return parking;
+    }
+
+    public void setParking(boolean parking) {
+        this.parking = parking;
+    }
+
+    public HashMap<String, User> getListOfUsers() {
+        return listOfUsers;
+    }
+
+    public void setListOfUsers(HashMap<String, User> listOfUsers) {
+        this.listOfUsers = listOfUsers;
     }
 }

@@ -13,17 +13,19 @@ import android.widget.TextView;
 
 public class RoomReservationActivity extends Activity {
 
-    TextView roomDataTextView;
+    TextView usernameTextView;
+    TextView residenceTextView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_reservation);
         Intent i = getIntent();
-        String roomData = i.getStringExtra("roomData");
-        System.out.println(roomData);
+        User user = (User) i.getSerializableExtra("user");
 
-        roomDataTextView = (TextView) findViewById(R.id.tv_room);
-        roomDataTextView.setText(roomData);
+        usernameTextView = (TextView) findViewById(R.id.tv_username);
+        usernameTextView.setText(user.getName() + " " + user.getSurname());
+        usernameTextView = (TextView) findViewById(R.id.tv_residence);
+        usernameTextView.setText(user.getResidence().getName());
     }
 }

@@ -1,13 +1,20 @@
 package com.example.maxspahn.studentbnb;
 
+import android.graphics.Bitmap;
+
+import java.io.Serializable;
+import java.text.ParseException;
+import 	java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.FileHandler;
 
 /**
  * Created by Pedro León on 29/04/2017.
  */
 
-public class User {
+public class User implements Serializable{
     private String name;
     private String surname;
     private String username;
@@ -17,6 +24,7 @@ public class User {
     private String roomNumber;
     private ArrayList<Date> availability;
     private Residence residence;
+    private Bitmap photo;
 
     public User(String n, String sn, String un, String p, String t, String e){
         name = n;
@@ -25,18 +33,50 @@ public class User {
         password = p;
         telephone = t;
         email = e;
+        availability = new ArrayList<>();
     }
 
+    /*
+    to be used in ProfileActivity
+     */
     public void registerRoom(String n){
         roomNumber = n;
-        residence.addUser(this);
     }
 
+    /*
+    to be used in ProfileActivity
+     */
     public void addRoomAvailability(Date initDate, Date finDate){
-        for(Date d = initDate; d.before(finDate); d.setDate(d.getDay()+1)){
-            availability.add(d);
+        Calendar start = Calendar.getInstance();
+        start.setTime(initDate);
+        Calendar end = Calendar.getInstance();
+        end.setTime(finDate);
+        for (Date date = start.getTime(); date.before(end.getTime()); start.add(Calendar.DATE, 1), date = start.getTime()){
+            availability.add(date);
         }
     }
+
+    /*
+    to be used in RoomReservationActivity
+     */
+    public boolean isAvailable(String initDate, String finDate) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date iDate = sdf.parse(initDate);
+        Date fDate = sdf.parse(finDate);
+        Calendar start = Calendar.getInstance();
+        start.setTime(iDate);
+        Calendar end = Calendar.getInstance();
+        end.setTime(fDate);
+        for (Date date = start.getTime(); date.before(end.getTime()); start.add(Calendar.DATE, 1), date = start.getTime()){
+            if(!availability.contains(date)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    /********************************************Getters and setters*************************************************/
 
     public String getName() {
         return name;
@@ -108,5 +148,13 @@ public class User {
 
     public void setResidence(Residence residence) {
         this.residence = residence;
+    }
+
+    public Bitmap getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Bitmap photo) {
+        this.photo = photo;
     }
 }

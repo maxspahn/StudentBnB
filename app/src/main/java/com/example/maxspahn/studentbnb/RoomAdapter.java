@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Pedro León on 29/04/2017.
@@ -16,12 +16,12 @@ import java.util.List;
 
 public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomAdapterViewHolder> {
 
-    private String[] mRoomData; // array of information to be displayed, setter implemented at the end
+    private ArrayList<User> mUserData; // array of information to be displayed, setter implemented at the end
 
     private final RoomAdapterOnClickHandler mOnClickHandler;
 
     public interface RoomAdapterOnClickHandler{
-        void onClick(String roomData);
+        void onClick(User u);
     }
     /*
     constructor
@@ -42,8 +42,8 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomAdapterVie
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            String roomData = mRoomData[adapterPosition];
-            mOnClickHandler.onClick(roomData);
+            User u = mUserData.get(adapterPosition);
+            mOnClickHandler.onClick(u);
         }
     }
 
@@ -62,22 +62,22 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomAdapterVie
      */
     @Override
     public void onBindViewHolder(RoomAdapterViewHolder roomAdapterViewHolder, int position) {
-        String room = mRoomData[position];
-        roomAdapterViewHolder.mRoomTextView.setText(room);
+        User u = mUserData.get(position);
+        roomAdapterViewHolder.mRoomTextView.setText(u.getName() + " " + u.getSurname());
     }
     /*
     get total number of items in data array
      */
     @Override
     public int getItemCount() {
-        if (null == mRoomData) return 0;
-        return mRoomData.length;
+        if (null == mUserData) return 0;
+        return mUserData.size();
     }
     /*
     data setter
      */
-    public void setRoomData(String[] roomData) {
-        mRoomData = roomData;
+    public void setRoomData(ArrayList<User> userData) {
+        mUserData = userData;
         notifyDataSetChanged();
     }
 }

@@ -7,11 +7,6 @@
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/text_search"/>
     <item
-        android:id="@+id/action_message"
-        android:enabled="true"
-        android:icon="@drawable/ic_email_white_24dp"
-        android:title="@string/text_message"/>
-    <item
         android:id="@+id/action_trip"
         android:enabled="true"
         android:icon="@drawable/ic_local_airport_white_24dp"

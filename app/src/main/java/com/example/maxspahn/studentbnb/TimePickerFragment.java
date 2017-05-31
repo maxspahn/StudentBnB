@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -44,7 +45,15 @@ public class TimePickerFragment extends DialogFragment implements DatePickerDial
     method run once 'OK' is clicked
      */
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        String date = day + "/" + month + "/" + year; // save selected date to String
+        String sDay = Integer.toString(day);
+        String sMonth = Integer.toString(month);
+        if(day<10){
+            sDay = "0" + day;
+        }
+        if(month<10) {
+            sMonth = "0" + month;
+        }
+        String date = sDay + "/" + sMonth + "/" + year; // save selected date to String
         /*
         if sentence to differentiate between initial date and final date, switcher parameter is set in setActivity()
         - true = initial date

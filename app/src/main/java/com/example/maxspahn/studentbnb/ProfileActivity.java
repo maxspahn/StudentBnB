@@ -1,10 +1,14 @@
 package com.example.maxspahn.studentbnb;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,6 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView myResidence;
     private ImageView profileImage;
     private ImageView roomImage;
+    private BottomNavigationView bottomNavigationView;
 
 
     @Override
@@ -32,6 +37,9 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_profile); // here, you can create a single layout with a listview
+
+        Intent i = getIntent();
+        User user = (User) i.getSerializableExtra("user");
 
         listView = (ListView) findViewById(R.id.listView);
 
@@ -47,7 +55,9 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        // Set the information of the views
+        /*
+        ***************************************Receiving and showing information*******************************************************
+         */
         // We first find the views by id
         nameText = (TextView) findViewById(R.id.nameText);
         residenceCity = (TextView) findViewById(R.id.residenceCity);
@@ -58,8 +68,33 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         myResidence.setText("My Room");
-        
+        residenceName.setText(user.getResidence().getName());
+        residenceCity.setText(user.getResidence().getCity());
+        //TODO set the images retrieved from the user.
 
+
+        /*
+        ***************************************Bottom menu*******************************************************
+         */
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_search:
+                        // call SearchRoom activity
+                        break;
+                    case R.id.action_trip:
+                        // call Trip activity
+                        break;
+                    case R.id.action_profile:
+                        // do nothing
+                        break;
+                }
+                return true;
+            }
+        });
 
 
     }

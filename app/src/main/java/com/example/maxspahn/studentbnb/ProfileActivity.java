@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -30,6 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView profileImage;
     private ImageView roomImage;
     private BottomNavigationView bottomNavigationView;
+    private User user;
 
 
     @Override
@@ -39,19 +39,38 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile); // here, you can create a single layout with a listview
 
         Intent i = getIntent();
-        User user = (User) i.getSerializableExtra("user");
+        user = (User) i.getSerializableExtra("user");
 
         listView = (ListView) findViewById(R.id.listView);
 
-        String[] profileElements = {"Evaluations", "My Trips"};
+        String[] profileElements = {"Evaluations", "My Trips", "My Info"};
 
         ListAdapter profileAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, profileElements);
         listView.setAdapter(profileAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String option = String.valueOf(adapterView.getItemIdAtPosition(i));
-                Toast.makeText(ProfileActivity.this, option, Toast.LENGTH_SHORT).show();
+                String option = ((TextView) view).getText().toString();
+
+                switch (option) {
+                    case "Evaluations":
+                        Intent intent1 = new Intent(getApplicationContext(), EvaluationsActivity.class);
+                        intent1.putExtra("user", user);
+                        startActivity(intent1);
+                        break;
+
+                    case "My Trips":
+                        Intent intent2 = new Intent(getApplicationContext(), TripsActivity.class);
+                        intent2.putExtra("user", user);
+                        startActivity(intent2);
+                        break;
+
+                    case "My Info":
+                        Intent intent3 = new Intent(getApplicationContext(), InfoActivity.class);
+                        intent3.putExtra("user", user);
+                        startActivity(intent3);
+                        break;
+                }
             }
         });
 
@@ -67,6 +86,7 @@ public class ProfileActivity extends AppCompatActivity {
         roomImage = (ImageView) findViewById(R.id.roomImage);
 
 
+        nameText.setText(user.getName() + user.getSurname());
         myResidence.setText("My Room");
         residenceName.setText(user.getResidence().getName());
         residenceCity.setText(user.getResidence().getCity());
@@ -98,5 +118,6 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     }
+
 
 }

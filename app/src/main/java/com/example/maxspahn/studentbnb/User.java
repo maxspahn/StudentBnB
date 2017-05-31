@@ -25,6 +25,8 @@ public class User implements Serializable{
     private ArrayList<Date> availability;
     private Residence residence;
     private Bitmap photo;
+    private ArrayList<Trip> trips;
+    private ArrayList<Evaluation> evaluations;
 
     public User(String n, String sn, String un, String p, String t, String e){
         name = n;

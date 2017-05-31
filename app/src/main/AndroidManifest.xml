@@ -19,6 +19,9 @@
         <activity android:name=".SearchRoomActivity"></activity>
         <activity android:name=".RoomReservationActivity"></activity>
         <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".InfoActivity"></activity>
+        <activity android:name=".TripsActivity"></activity>
+        <activity android:name=".EvaluationsActivity"></activity>
     </application>
 
 </manifest>

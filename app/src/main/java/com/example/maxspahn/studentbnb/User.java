@@ -26,6 +26,8 @@ public class User implements Serializable{
     private ArrayList<Date> availability;
     private Residence residence;
     //TODO save user pictures information as attribute to be displayed in App Activities
+    private ArrayList<Trip> trips;
+    private ArrayList<Evaluation> evaluations;
 
     public User(String n, String sn, String un, String p, String t, String e){
         name = n;

@@ -20,8 +20,7 @@ public class RoomReservationActivity extends Activity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_reservation);
-        Intent i = getIntent();
-        User user = (User) i.getSerializableExtra("user");
+        User user = (User) getIntent().getSerializableExtra("user");
 
         usernameTextView = (TextView) findViewById(R.id.tv_username);
         usernameTextView.setText(user.getName() + " " + user.getSurname());

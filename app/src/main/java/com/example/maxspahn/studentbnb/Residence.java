@@ -1,12 +1,13 @@
 package com.example.maxspahn.studentbnb;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  * Created by Pedro León on 29/04/2017.
  */
 
-public class Residence {
+public class Residence implements Serializable{
     private String name;
     //TODO add attribute indicating address to be used by map
     private String city;

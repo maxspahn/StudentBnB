@@ -15,6 +15,7 @@ import java.util.logging.FileHandler;
  */
 
 public class User implements Serializable{
+    static final long serialVersionUID = 42L;
     private String name;
     private String surname;
     private String username;
@@ -24,9 +25,7 @@ public class User implements Serializable{
     private String roomNumber;
     private ArrayList<Date> availability;
     private Residence residence;
-    private Bitmap photo;
-    private ArrayList<Trip> trips;
-    private ArrayList<Evaluation> evaluations;
+    //TODO save user pictures information as attribute to be displayed in App Activities
 
     public User(String n, String sn, String un, String p, String t, String e){
         name = n;
@@ -150,13 +149,5 @@ public class User implements Serializable{
 
     public void setResidence(Residence residence) {
         this.residence = residence;
-    }
-
-    public Bitmap getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(Bitmap photo) {
-        this.photo = photo;
     }
 }

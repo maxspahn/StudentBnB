@@ -201,7 +201,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     @Override
     public void onClick(User u) {
         Intent intent = new Intent(this, RoomReservationActivity.class);
-        intent.putExtra("user", u);
+        intent.putExtra("user", (Serializable) u);
         startActivity(intent);
 
     }

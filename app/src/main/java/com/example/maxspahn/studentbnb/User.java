@@ -152,4 +152,20 @@ public class User implements Serializable{
     public void setResidence(Residence residence) {
         this.residence = residence;
     }
+
+    public ArrayList<Evaluation> getEvaluations() {
+        return evaluations;
+    }
+
+    public void setEvaluations(ArrayList<Evaluation> evaluations) {
+        this.evaluations = evaluations;
+    }
+
+    public ArrayList<Trip> getTrips() {
+        return trips;
+    }
+
+    public void setTrips(ArrayList<Trip> trips) {
+        this.trips = trips;
+    }
 }

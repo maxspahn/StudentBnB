@@ -11,7 +11,7 @@ public class Trip {
     Date finalDate;
     User visitingUser;
     User hostUser;
-    Evaluation evaluation;
+    Evaluation evaluation = null;
     //TODO option to evaluate trips
 
     public Trip(Date initialDate, Date finalDate, User u, User hostU) {

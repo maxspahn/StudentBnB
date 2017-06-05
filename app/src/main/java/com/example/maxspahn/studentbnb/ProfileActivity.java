@@ -108,7 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_search:
-                        // call SearchRoom activity
+                        launchSearchRoomActivity();
                         break;
                     case R.id.action_trip:
                         // call Trip activity
@@ -128,11 +128,11 @@ public class ProfileActivity extends AppCompatActivity {
         User newUser1 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
         User newUser2 = new User("Arturo", "Garrido", "arturogc", "arthur", "0782683879", "arturo.garrido.contreras@gmail.com");
 
-        Residence ecp = new Residence("Ecole Centrale", "Paris");
+        Residence ecp = new Residence("Ecole Centrale", "Paris", "5 Avenue Sully Prudhomme, 92290 Châtenay-Malabry");
         newUser2.setResidence(ecp);
         ecp.addUser(newUser2);
         newUser2.setRoomNumber("E221");
-        Residence sp = new Residence("San Pablo", "Madrid");
+        Residence sp = new Residence("San Pablo", "Madrid", "Calle de Isaac Peral, 58, 28040 Madrid, Espagne");
         newUser1.setResidence(sp);
         sp.addUser(newUser1);
         newUser1.setRoomNumber("B101");
@@ -151,5 +151,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         return newUser2;
 
+    }
+
+    private void launchSearchRoomActivity(){
+        Intent intent = new Intent(this, SearchRoomActivity.class);
+        startActivity(intent);
     }
 }

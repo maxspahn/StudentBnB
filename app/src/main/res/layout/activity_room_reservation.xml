@@ -6,12 +6,14 @@
               android:layout_height="match_parent">
     <ImageView
         android:src="@mipmap/room"
-        android:layout_width="wrap_content"
+        android:adjustViewBounds="true"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center">
         <ImageView
             android:id="@+id/image_userPhoto"
             app:srcCompat="@drawable/ic_person_blue_24dp"
@@ -20,7 +22,8 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center">
             <TextView
                 android:id="@+id/tv_username"
                 android:text="Username"
@@ -44,10 +47,11 @@
         android:text="Room description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-              android:name="com.google.android.gms.maps.MapFragment"
-              android:id="@+id/map"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"/>
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

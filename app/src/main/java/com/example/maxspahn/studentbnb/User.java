@@ -51,11 +51,14 @@ public class User implements Serializable{
     /*
     to be used in ProfileActivity
      */
-    public void addRoomAvailability(Date initDate, Date finDate){
+    public void addRoomAvailability(String initDate, String finDate) throws ParseException{
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date iDate = sdf.parse(initDate);
+        Date fDate = sdf.parse(finDate);
         Calendar start = Calendar.getInstance();
-        start.setTime(initDate);
+        start.setTime(iDate);
         Calendar end = Calendar.getInstance();
-        end.setTime(finDate);
+        end.setTime(fDate);
         for (Date date = start.getTime(); date.before(end.getTime()); start.add(Calendar.DATE, 1), date = start.getTime()){
             availability.add(date);
         }

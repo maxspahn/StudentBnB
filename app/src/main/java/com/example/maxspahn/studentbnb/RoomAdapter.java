@@ -31,11 +31,13 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomAdapterVie
     }
 
     public class RoomAdapterViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-        public final TextView mRoomTextView;
+        public final TextView userTextView;
+        public final TextView residenceTextView;
 
         public RoomAdapterViewHolder(View view) {
             super(view);
-            mRoomTextView = (TextView) view.findViewById(R.id.tv_room_data);
+            userTextView = (TextView) view.findViewById(R.id.tv_user_data);
+            residenceTextView = (TextView) view.findViewById(R.id.tv_residence_data);
             view.setOnClickListener(this);
         }
 
@@ -63,7 +65,8 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomAdapterVie
     @Override
     public void onBindViewHolder(RoomAdapterViewHolder roomAdapterViewHolder, int position) {
         User u = mUserData.get(position);
-        roomAdapterViewHolder.mRoomTextView.setText(u.getName() + " " + u.getSurname());
+        roomAdapterViewHolder.userTextView.setText(u.getName() + " " + u.getSurname());
+        roomAdapterViewHolder.residenceTextView.setText(u.getResidence().getName());
     }
     /*
     get total number of items in data array

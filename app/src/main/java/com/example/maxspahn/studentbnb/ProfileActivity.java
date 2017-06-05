@@ -48,7 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listView);
 
-        String[] profileElements = {"Evaluations", "My Trips", "My Info"};
+        String[] profileElements = {"Evaluations", "My Trips", "My Info", "Room Availability"};
 
         ListAdapter profileAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, profileElements);
         listView.setAdapter(profileAdapter);
@@ -74,6 +74,10 @@ public class ProfileActivity extends AppCompatActivity {
                         Intent intent3 = new Intent(getApplicationContext(), InfoActivity.class);
                         intent3.putExtra("user", (Serializable) user);
                         startActivity(intent3);
+                        break;
+
+                    case "Room Availability":
+
                         break;
                 }
             }

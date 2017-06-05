@@ -37,6 +37,8 @@ public class User implements Serializable{
         telephone = t;
         email = e;
         availability = new ArrayList<>();
+        trips = new ArrayList<Trip>();
+        evaluations = new ArrayList<Evaluation>();
     }
 
     /*
@@ -167,5 +169,9 @@ public class User implements Serializable{
 
     public void setTrips(ArrayList<Trip> trips) {
         this.trips = trips;
+    }
+
+    public void addTrip(Trip trip) {
+        this.trips.add(trip);
     }
 }

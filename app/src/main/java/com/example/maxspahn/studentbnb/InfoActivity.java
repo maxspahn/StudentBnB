@@ -25,7 +25,7 @@ public class InfoActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listView);
 
-        String[] infoElements = {"Name: " + user.getName() + user.getSurname(), "Username: " + user.getUsername(), "Telephone: " + user.getTelephone(), "Email: " + user.getEmail(), "City: " + user.getResidence().getCity() + "Residence: " + user.getResidence().getName() + "Room: " + user.getRoomNumber()};
+        String[] infoElements = {"Name: " + user.getName() + user.getSurname(), "Username: " + user.getUsername(), "Telephone: " + user.getTelephone(), "Email: " + user.getEmail(), "City: " + user.getResidence().getCity(), "Residence: " + user.getResidence().getName(), "Room: " + user.getRoomNumber()};
 
         ListAdapter infoAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, infoElements);
         listView.setAdapter(infoAdapter);

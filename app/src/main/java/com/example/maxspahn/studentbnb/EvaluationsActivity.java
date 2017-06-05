@@ -42,7 +42,7 @@ public class EvaluationsActivity extends Activity {
         buttonEval.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), EvaluationsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), NewEvalActivity.class);
                 intent.putExtra("user", user);
                 startActivity(intent);
             }

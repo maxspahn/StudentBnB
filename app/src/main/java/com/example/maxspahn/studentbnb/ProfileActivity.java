@@ -19,6 +19,9 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.Serializable;
+import java.util.Date;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private ListView listView;
@@ -38,8 +41,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_profile); // here, you can create a single layout with a listview
 
-        Intent i = getIntent();
-        user = (User) i.getSerializableExtra("user");
+        //Intent i = getIntent();
+        //user = (User) i.getSerializableExtra("user");
+
+        user = loadUserData();
 
         listView = (ListView) findViewById(R.id.listView);
 
@@ -55,19 +60,19 @@ public class ProfileActivity extends AppCompatActivity {
                 switch (option) {
                     case "Evaluations":
                         Intent intent1 = new Intent(getApplicationContext(), EvaluationsActivity.class);
-                        intent1.putExtra("user", user);
+                        intent1.putExtra("user", (Serializable) user);
                         startActivity(intent1);
                         break;
 
                     case "My Trips":
                         Intent intent2 = new Intent(getApplicationContext(), TripsActivity.class);
-                        intent2.putExtra("user", user);
+                        intent2.putExtra("user", (Serializable) user);
                         startActivity(intent2);
                         break;
 
                     case "My Info":
                         Intent intent3 = new Intent(getApplicationContext(), InfoActivity.class);
-                        intent3.putExtra("user", user);
+                        intent3.putExtra("user", (Serializable) user);
                         startActivity(intent3);
                         break;
                 }
@@ -119,5 +124,32 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    private User loadUserData() {
+        User newUser1 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser2 = new User("Arturo", "Garrido", "arturogc", "arthur", "0782683879", "arturo.garrido.contreras@gmail.com");
 
+        Residence ecp = new Residence("Ecole Centrale", "Paris");
+        newUser2.setResidence(ecp);
+        ecp.addUser(newUser2);
+        newUser2.setRoomNumber("E221");
+        Residence sp = new Residence("San Pablo", "Madrid");
+        newUser1.setResidence(sp);
+        sp.addUser(newUser1);
+        newUser1.setRoomNumber("B101");
+
+
+        Trip trip1 = new Trip(new Date(2016, 06, 13), new Date(2016, 06, 20), newUser1, newUser2);
+        trip1.setEvaluation(Evaluation.GOOD);
+        trip1.confirmTrip();
+
+        Trip trip2 = new Trip(new Date(2017, 02, 5), new Date(2017, 02, 8), newUser2, newUser1);
+        trip2.setEvaluation(Evaluation.EXCELLENT);
+        trip2.confirmTrip();
+
+        Trip trip3 = new Trip(new Date(2017, 04, 10), new Date(2017, 04, 15), newUser2, newUser1);
+        trip3.confirmTrip();
+
+        return newUser2;
+
+    }
 }

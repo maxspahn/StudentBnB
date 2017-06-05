@@ -33,7 +33,11 @@ public class CustomAdapter extends ArrayAdapter<Trip> {
         TextView textEval = (TextView) evalView.findViewById(R.id.textEval);
 
         textCity.setText(singleTrip.getHostUser().getResidence().getCity());
-        textEval.setText(singleTrip.getEvaluation().toString());
+        if(singleTrip.getEvaluation() != null) {
+            textEval.setText(singleTrip.getEvaluation().toString());
+        } else {
+            textEval.setText("Not evaluated");
+        }
 
         return evalView;
     }

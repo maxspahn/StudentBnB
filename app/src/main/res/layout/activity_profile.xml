@@ -41,7 +41,7 @@
 
     <ImageView
         android:id="@+id/roomImage"
-        android:src="@mipmap/fotoRoom"
+        android:src="@mipmap/fotoroom"
         android:layout_width="180dp"
         android:layout_height="150dp"
         android:layout_above="@+id/listView"
@@ -52,7 +52,7 @@
 
     <ImageView
         android:id="@+id/profileImage"
-        android:src="@mipmap/fotoCV"
+        android:src="@mipmap/fotocv"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="5dp"/>

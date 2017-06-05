@@ -53,6 +53,7 @@ public class NewEvalActivity extends Activity {
 
                 Intent intent = new Intent(getApplicationContext(), EvaluateActivity.class);
                 intent.putExtra("trip", (Serializable) chosenTrip);
+                startActivity(intent);
             }
         });
 

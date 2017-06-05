@@ -10,18 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+        </activity>
+        <activity android:name=".SearchRoomActivity"></activity>
+        <activity android:name=".RoomReservationActivity"></activity>
+        <activity android:name=".ProfileActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchRoomActivity"></activity>
-        <activity android:name=".RoomReservationActivity"></activity>
-        <activity android:name=".ProfileActivity"></activity>
         <activity android:name=".InfoActivity"></activity>
         <activity android:name=".TripsActivity"></activity>
         <activity android:name=".EvaluationsActivity"></activity>
+        <activity android:name=".NewEvalActivity"></activity>
+        <activity android:name=".EvaluateActivity"></activity>
     </application>
 
 </manifest>

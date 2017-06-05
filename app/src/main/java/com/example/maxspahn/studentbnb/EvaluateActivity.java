@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Arturo on 02/06/2017.
@@ -21,6 +22,7 @@ public class EvaluateActivity extends Activity {
     Trip trip;
     TextView textTitle;
     ListView listEval;
+    Toast toast;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,18 +49,26 @@ public class EvaluateActivity extends Activity {
                 switch (option) {
                     case "BAD":
                         trip.setEvaluation(Evaluation.BAD);
+                        toast = Toast.makeText(getApplicationContext(), "Thank you for evalutaing!", Toast.LENGTH_SHORT);
+                        toast.show();
                         break;
 
                     case "NORMAL":
                         trip.setEvaluation(Evaluation.NORMAL);
+                        toast = Toast.makeText(getApplicationContext(), "Thank you for evalutaing!", Toast.LENGTH_SHORT);
+                        toast.show();
                         break;
 
                     case "GOOD":
                         trip.setEvaluation(Evaluation.GOOD);
+                        toast = Toast.makeText(getApplicationContext(), "Thank you for evalutaing!", Toast.LENGTH_SHORT);
+                        toast.show();
                         break;
 
                     case "EXCELLENT":
                         trip.setEvaluation(Evaluation.EXCELLENT);
+                        toast = Toast.makeText(getApplicationContext(), "Thank you for evalutaing!", Toast.LENGTH_SHORT);
+                        toast.show();
                         break;
                 }
             }

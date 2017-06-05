@@ -1,12 +1,13 @@
 package com.example.maxspahn.studentbnb;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Arturo on 31/05/2017.
  */
 
-public class Trip {
+public class Trip implements Serializable {
     Date initialDate;
     Date finalDate;
     User visitingUser;
@@ -19,6 +20,11 @@ public class Trip {
         this.finalDate = finalDate;
         this.visitingUser = u;
         this.hostUser = hostU;
+    }
+
+    public void confirmTrip() {
+        this.visitingUser.addTrip(this);
+        this.hostUser.addTrip(this);
     }
 
     public Date getInitialDate() {

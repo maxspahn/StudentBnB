@@ -76,7 +76,7 @@ public class TripsActivity extends Activity {
         listView.setAdapter(tripsAdapter);
 
         buttonEval = (Button) findViewById(R.id.buttonEval);
-        buttonEval.setBackgroundColor(Color.BLUE);
+        buttonEval.setBackgroundColor(getResources().getColor(R.color.colorSecondaryDark));
 
         buttonEval.setOnClickListener(new View.OnClickListener() {
             @Override

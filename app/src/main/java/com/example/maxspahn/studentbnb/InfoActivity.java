@@ -34,7 +34,7 @@ public class InfoActivity extends AppCompatActivity {
         listView.setAdapter(infoAdapter);
 
         buttonChange = (Button) findViewById(R.id.buttonChange);
-        buttonChange.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+        buttonChange.setBackgroundColor(getResources().getColor(R.color.colorSecondaryDark));
 
         buttonChange.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -140,6 +140,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        buttonChange.setBackgroundColor(getResources().getColor(R.color.colorSecondaryDark));
         buttonChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,6 +154,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        buttonRoom.setBackgroundColor(getResources().getColor(R.color.colorSecondaryDark));
         buttonRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

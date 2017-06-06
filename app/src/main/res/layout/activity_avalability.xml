@@ -18,6 +18,8 @@
             android:layout_marginTop="40dp"
             android:layout_marginLeft="40dp"
             android:layout_margin="10dp"
+            android:background="@color/colorSecondaryDark"
+            android:textColor="@color/white"
             android:text="Add"
             android:textSize="22sp"/>
 
@@ -28,6 +30,8 @@
             android:layout_marginTop="40dp"
             android:layout_marginRight="40dp"
             android:layout_margin="10dp"
+            android:background="@color/colorSecondaryDark"
+            android:textColor="@color/white"
             android:text="Remove"
             android:textSize="22sp"/>
 
@@ -38,6 +42,8 @@
             android:layout_marginLeft="40dp"
             android:layout_marginBottom="40dp"
             android:layout_margin="10dp"
+            android:background="@color/colorSecondary"
+            android:textColor="@color/white"
             android:text="init date"
             android:textSize="22sp"/>
 
@@ -48,6 +54,8 @@
             android:layout_marginRight="40dp"
             android:layout_marginBottom="40dp"
             android:layout_margin="10dp"
+            android:background="@color/colorSecondary"
+            android:textColor="@color/white"
             android:text="final date"
             android:textSize="22sp"/>
 

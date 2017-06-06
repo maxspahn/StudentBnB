@@ -8,12 +8,18 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.example.maxspahn.studentbnb.RoomAdapter.RoomAdapterOnClickHandler;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -34,6 +40,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     private Button searchButton;
     protected Button initialDateButton;
     protected Button finalDateButton;
+    public User user;
 
     private RecyclerView mRecyclerView;
     private RoomAdapter mRoomAdapter; // adapter to fill recycler view with data
@@ -53,6 +60,8 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         searchButton = (Button) findViewById(R.id.b_search);
         initialDateButton = (Button) findViewById(R.id.b_initdate);
         finalDateButton = (Button) findViewById(R.id.b_findate);
+
+        getUser((String) getIntent().getStringExtra("username"));
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,6 +236,30 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     private void launchProfileActivity(){
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
+    }
+
+    public void getUser(String username){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        //Get the user.
+        DatabaseReference ref  = database.getReference(username);
+
+        // Read from the database and check if userName fits to password.
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                user = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("CREATION", "Failed to read value.", error.toException());
+            }
+        });
+
     }
 
     @Override

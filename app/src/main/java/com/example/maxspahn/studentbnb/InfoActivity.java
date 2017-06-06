@@ -1,6 +1,7 @@
 package com.example.maxspahn.studentbnb;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -35,6 +36,7 @@ public class InfoActivity extends AppCompatActivity {
 
         buttonChange = (Button) findViewById(R.id.buttonChange);
         buttonChange.setBackgroundColor(getResources().getColor(R.color.colorSecondaryDark));
+        buttonChange.setTextColor(Color.WHITE);
 
         buttonChange.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -77,6 +77,7 @@ public class TripsActivity extends Activity {
 
         buttonEval = (Button) findViewById(R.id.buttonEval);
         buttonEval.setBackgroundColor(getResources().getColor(R.color.colorSecondaryDark));
+        buttonEval.setTextColor(Color.WHITE);
 
         buttonEval.setOnClickListener(new View.OnClickListener() {
             @Override

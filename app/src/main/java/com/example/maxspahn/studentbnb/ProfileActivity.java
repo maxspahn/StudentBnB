@@ -3,6 +3,7 @@ package com.example.maxspahn.studentbnb;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
@@ -140,7 +141,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        buttonChange.setBackgroundColor(getResources().getColor(R.color.colorSecondaryDark));
+        buttonChange.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+        buttonChange.setTextColor(Color.WHITE);
         buttonChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,7 +156,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        buttonRoom.setBackgroundColor(getResources().getColor(R.color.colorSecondaryDark));
+        buttonRoom.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+        buttonRoom.setTextColor(Color.WHITE);
         buttonRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

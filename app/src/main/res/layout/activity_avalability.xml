@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:id="@+id/gridLayout">
+
+        <Button
+            android:id="@+id/b_add"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_margin="10dp"
+            android:text="Add"
+            android:textSize="22sp"/>
+
+        <Button
+            android:id="@+id/b_remove"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_margin="10dp"
+            android:text="Remove"
+            android:textSize="22sp"/>
+
+        <Button
+            android:id="@+id/b_initdate"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginBottom="40dp"
+            android:layout_margin="10dp"
+            android:text="init date"
+            android:textSize="22sp"/>
+
+        <Button
+            android:id="@+id/b_findate"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="40dp"
+            android:layout_margin="10dp"
+            android:text="final date"
+            android:textSize="22sp"/>
+
+    </GridLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dadada"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp" />
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gridLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+</RelativeLayout>

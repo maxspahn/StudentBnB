@@ -59,8 +59,11 @@ public class User implements Serializable{
         start.setTime(iDate);
         Calendar end = Calendar.getInstance();
         end.setTime(fDate);
+        end.add(Calendar.DATE, 1);
         for (Date date = start.getTime(); date.before(end.getTime()); start.add(Calendar.DATE, 1), date = start.getTime()){
-            availability.add(date);
+            if(!availability.contains(date)){
+                availability.add(date);
+            }
         }
     }
 

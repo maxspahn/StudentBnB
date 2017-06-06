@@ -77,7 +77,9 @@ public class ProfileActivity extends AppCompatActivity {
                         break;
 
                     case "Room Availability":
-
+                        Intent intent4 = new Intent(getApplicationContext(), AvailabilityActivity.class);
+                        intent4.putExtra("user", (Serializable) user);
+                        startActivity(intent4);
                         break;
                 }
             }

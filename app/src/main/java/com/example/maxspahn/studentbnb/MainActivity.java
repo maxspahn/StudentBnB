@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void login(){
 
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         //Get the user name from EditText.

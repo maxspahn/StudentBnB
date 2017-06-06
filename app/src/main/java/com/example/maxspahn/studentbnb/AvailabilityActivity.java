@@ -6,9 +6,16 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -38,8 +45,7 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avalability);
 
-        Intent i = getIntent();
-        user = (User) i.getSerializableExtra("user");
+        getUser((String) getIntent().getStringExtra("username"));
         toDelete = null;
 
         /*
@@ -136,6 +142,30 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
     public void ShowMessage(String message){
         Context context = this;
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void getUser(String username){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        //Get the user.
+        DatabaseReference ref  = database.getReference(username);
+
+        // Read from the database and check if userName fits to password.
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                user = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("CREATION", "Failed to read value.", error.toException());
+            }
+        });
+
     }
 
     @Override

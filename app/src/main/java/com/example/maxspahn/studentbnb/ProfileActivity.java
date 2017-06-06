@@ -3,6 +3,7 @@ package com.example.maxspahn.studentbnb;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,12 +26,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.graphics.Bitmap;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.w3c.dom.Text;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -41,7 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView profileImage;
     private ImageView roomImage;
     private BottomNavigationView bottomNavigationView;
-    private User user;
+    public User user;
     private Button buttonChange;
     private Button buttonRoom;
     private static Bitmap Image = null;
@@ -58,10 +67,15 @@ public class ProfileActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_profile);
 
-        Intent i = getIntent();
-        user = (User) i.getSerializableExtra("user");
+        getUser((String) getIntent().getStringExtra("username"));
 
-        user = loadUserData();
+        System.out.println(user.getName());
+
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         listView = (ListView) findViewById(R.id.listView);
 
@@ -77,19 +91,19 @@ public class ProfileActivity extends AppCompatActivity {
                 switch (option) {
                     case "My Trips":
                         Intent intent2 = new Intent(getApplicationContext(), TripsActivity.class);
-                        intent2.putExtra("user", (Serializable) user);
+                        intent2.putExtra("username", user.getUsername());
                         startActivity(intent2);
                         break;
 
                     case "My Info":
                         Intent intent3 = new Intent(getApplicationContext(), InfoActivity.class);
-                        intent3.putExtra("user", (Serializable) user);
+                        intent3.putExtra("username", user.getUsername());
                         startActivity(intent3);
                         break;
 
                     case "Room Availability":
                         Intent intent4 = new Intent(getApplicationContext(), AvailabilityActivity.class);
-                        intent4.putExtra("user", (Serializable) user);
+                        intent4.putExtra("username", user.getUsername());
                         startActivity(intent4);
                         break;
                 }
@@ -140,6 +154,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        buttonChange.setBackgroundColor(getResources().getColor(R.color.colorSecondaryDark));
+        buttonChange.setTextColor(Color.WHITE);
         buttonChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,12 +169,14 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        buttonRoom.setBackgroundColor(getResources().getColor(R.color.colorSecondaryDark));
+        buttonRoom.setTextColor(Color.WHITE);
         buttonRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 roomImage.setImageBitmap(null);
-                if (Image != null)
-                    Image.recycle();
+                if (Image2 != null)
+                    Image2.recycle();
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -222,6 +240,30 @@ public class ProfileActivity extends AppCompatActivity {
         return cursor.getInt(0);
     }
 
+    public void getUser(String username){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        //Get the user.
+        DatabaseReference ref  = database.getReference(username);
+
+        // Read from the database and check if userName fits to password.
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                user = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("CREATION", "Failed to read value.", error.toException());
+            }
+        });
+
+    }
+
     private User loadUserData() {
         User newUser1 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
         User newUser2 = new User("Arturo", "Garrido", "arturogc", "arthur", "0782683879", "arturo.garrido.contreras@gmail.com");
@@ -253,6 +295,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void launchSearchRoomActivity(){
         Intent intent = new Intent(this, SearchRoomActivity.class);
+        intent.putExtra("username", user.getUsername());
         startActivity(intent);
     }
 }

@@ -40,7 +40,6 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     private Button searchButton;
     protected Button initialDateButton;
     protected Button finalDateButton;
-    public User currentUser;
     public User user;
 
     private RecyclerView mRecyclerView;
@@ -63,7 +62,6 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         finalDateButton = (Button) findViewById(R.id.b_findate);
 
         getUser((String) getIntent().getStringExtra("username"));
-        currentUser = user;
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,11 +128,73 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     private void loadRoomData() {
         showRoomDataView();
         ArrayList<User> userData = new ArrayList<>();
-        getUser("maxspahn");
-        User newUser1 = user;
-        System.out.println("New user " + newUser1.getUsername());
+        User newUser1 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser2 = new User("Arturo", "Garrido", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser3 = new User("Max", "Spahn", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser4 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser5 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser6 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser7 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser8 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser9 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser10 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser11 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        User newUser12 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        try{
+            newUser1.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser2.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser3.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser4.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser5.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser6.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser7.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser8.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser9.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser10.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser11.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser12.addRoomAvailability("01/01/2017","31/12/2017");
+        }catch(ParseException e){
+            System.out.println(e.getMessage());
+        }
+        newUser1.registerRoom("E201");
+        newUser2.registerRoom("E202");
+        newUser3.registerRoom("E203");
+        newUser4.registerRoom("E204");
+        newUser5.registerRoom("E205");
+        newUser6.registerRoom("E206");
+        newUser7.registerRoom("E207");
+        newUser8.registerRoom("E208");
+        newUser9.registerRoom("E209");
+        newUser10.registerRoom("E210");
+        newUser11.registerRoom("E211");
+        newUser12.registerRoom("E212");
+        Residence newResidence = new Residence("ECP", "Paris", "5 Avenue Sully Prudhomme, 92290 Châtenay-Malabry");
+        newUser1.setResidence(newResidence);
+        newUser2.setResidence(newResidence);
+        newUser3.setResidence(newResidence);
+        newUser4.setResidence(newResidence);
+        newUser5.setResidence(newResidence);
+        newUser6.setResidence(newResidence);
+        newUser7.setResidence(newResidence);
+        newUser8.setResidence(newResidence);
+        newUser9.setResidence(newResidence);
+        newUser10.setResidence(newResidence);
+        newUser11.setResidence(newResidence);
+        newUser12.setResidence(newResidence);
+        userData.add(newUser1);
+        userData.add(newUser2);
+        userData.add(newUser3);
+        userData.add(newUser4);
+        userData.add(newUser5);
+        userData.add(newUser6);
+        userData.add(newUser7);
+        userData.add(newUser8);
+        userData.add(newUser9);
+        userData.add(newUser10);
+        userData.add(newUser11);
+        userData.add(newUser12);
         ArrayList<User> dataToDisplay = new ArrayList<>();
-        dataToDisplay.add(newUser1);
+
         for(User u : userData){
             if(u.getResidence().getCity().toLowerCase().equals(destinationEditText.getText().toString().toLowerCase())){
                 try{
@@ -163,7 +223,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     @Override
     public void onClick(User u) {
         Intent intent = new Intent(this, RoomReservationActivity.class);
-        intent.putExtra("username", currentUser.getUsername() + "/" + u.getUsername());
+        intent.putExtra("user", (Serializable) u);
         startActivity(intent);
 
     }
@@ -175,7 +235,6 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
 
     private void launchProfileActivity(){
         Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("username", currentUser.getUsername());
         startActivity(intent);
     }
 
@@ -184,7 +243,6 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
 
         //Get the user.
         DatabaseReference ref  = database.getReference(username);
-        System.out.println(ref.getKey());
 
         // Read from the database and check if userName fits to password.
         ref.addValueEventListener(new ValueEventListener() {
@@ -201,6 +259,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
                 Log.w("CREATION", "Failed to read value.", error.toException());
             }
         });
+
     }
 
     @Override

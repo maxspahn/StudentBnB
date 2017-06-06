@@ -67,9 +67,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_profile);
 
-        getUser((String) getIntent().getStringExtra("username"));
+        String usernameInit = (String) getIntent().getStringExtra("username");
+        getUser(usernameInit);
 
-        System.out.println(user.getName());
+        System.out.println(usernameInit);
 
         try {
             TimeUnit.SECONDS.sleep(3);

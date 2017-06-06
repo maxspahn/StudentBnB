@@ -61,7 +61,10 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         initialDateButton = (Button) findViewById(R.id.b_initdate);
         finalDateButton = (Button) findViewById(R.id.b_findate);
 
-        getUser((String) getIntent().getStringExtra("username"));
+        String usernameInit = (String) getIntent().getStringExtra("username");
+        getUser(usernameInit);
+
+        System.out.println(usernameInit);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override

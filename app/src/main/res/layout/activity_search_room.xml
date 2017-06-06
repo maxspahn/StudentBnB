@@ -19,6 +19,7 @@
             android:layout_marginLeft="40dp"
             android:layout_margin="10dp"
             android:hint="Destination"
+            android:textColor="@color/colorSecondaryDark"
             android:textSize="22sp"/>
 
         <Button
@@ -29,6 +30,8 @@
             android:layout_marginRight="40dp"
             android:layout_margin="10dp"
             android:text="Search"
+            android:textColor="@color/white"
+            android:background="@color/colorSecondaryDark"
             android:textSize="22sp"/>
 
         <Button
@@ -39,6 +42,8 @@
             android:layout_marginBottom="40dp"
             android:layout_margin="10dp"
             android:text="init date"
+            android:textColor="@color/white"
+            android:background="@color/colorSecondary"
             android:textSize="22sp"/>
 
         <Button
@@ -49,6 +54,8 @@
             android:layout_marginBottom="40dp"
             android:layout_margin="10dp"
             android:text="final date"
+            android:textColor="@color/white"
+            android:background="@color/colorSecondary"
             android:textSize="22sp"/>
 
     </GridLayout>

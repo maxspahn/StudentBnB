@@ -120,11 +120,6 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         showRoomDataView();
         ArrayList<User> userData = new ArrayList<>();
         User newUser1 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        try{
-            newUser1.addRoomAvailability("01/01/2017","31/12/2017");
-        }catch(ParseException e){
-            System.out.println(e.getMessage());
-        }
         User newUser2 = new User("Arturo", "Garrido", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
         User newUser3 = new User("Max", "Spahn", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
         User newUser4 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
@@ -136,6 +131,22 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         User newUser10 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
         User newUser11 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
         User newUser12 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        try{
+            newUser1.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser2.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser3.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser4.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser5.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser6.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser7.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser8.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser9.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser10.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser11.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser12.addRoomAvailability("01/01/2017","31/12/2017");
+        }catch(ParseException e){
+            System.out.println(e.getMessage());
+        }
         newUser1.registerRoom("E201");
         newUser2.registerRoom("E202");
         newUser3.registerRoom("E203");

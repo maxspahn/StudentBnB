@@ -130,6 +130,7 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
     @Override
     public void onClick(Date d) {
         toDelete = d;
+        ShowMessage(d.toString());
     }
 
     public void ShowMessage(String message){

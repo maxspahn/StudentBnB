@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,6 +23,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,7 +39,8 @@ import java.util.List;
 public class RoomReservationActivity extends FragmentActivity implements OnMapReadyCallback{
 
     TextView usernameTextView;
-    User user;
+    User userBooker;
+    User userHoster;
 
     Button contactButton;
 
@@ -41,7 +48,10 @@ public class RoomReservationActivity extends FragmentActivity implements OnMapRe
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_reservation);
-        user = (User) getIntent().getSerializableExtra("user");
+        String bookerAndHoster = (String) getIntent().getStringExtra("username");
+        String[] s = bookerAndHoster.split("/");
+        getUserBooker(s[0]);
+        getUserHoster(s[1]);
 
         /*
         ***************************************Contact user related*******************************************************
@@ -62,26 +72,26 @@ public class RoomReservationActivity extends FragmentActivity implements OnMapRe
         ***************************************Google Map related*******************************************************
          */
 
-        Residence res = user.getResidence();
+        Residence res = userHoster.getResidence();
         res.setP(getLocationFromAddress(res.getStrAddress()));
-        user.setResidence(res);
+        userHoster.setResidence(res);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         usernameTextView = (TextView) findViewById(R.id.tv_username);
-        usernameTextView.setText(user.getName() + " " + user.getSurname());
+        usernameTextView.setText(userHoster.getName() + " " + userHoster.getSurname());
         usernameTextView = (TextView) findViewById(R.id.tv_residence);
-        usernameTextView.setText(user.getResidence().getName());
+        usernameTextView.setText(userHoster.getResidence().getName());
     }
 
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        double lat = user.getResidence().getP().lat;
-        double lng = user.getResidence().getP().lng;
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(user.getName()));
+        double lat = userHoster.getResidence().getP().lat;
+        double lng = userHoster.getResidence().getP().lng;
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title(userHoster.getName()));
         googleMap.setMaxZoomPreference(10.0f);
         googleMap.setMinZoomPreference(10.0f);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLngBounds(new LatLng(lat-17, lng-20), new LatLng(lat+17, lng+20)).getCenter(), 10));
@@ -115,5 +125,54 @@ public class RoomReservationActivity extends FragmentActivity implements OnMapRe
     public void ShowMessage(String message){
         Context context = this;
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void getUserBooker(String username){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        //Get the user.
+        DatabaseReference ref  = database.getReference(username);
+
+        // Read from the database and check if userName fits to password.
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                userBooker = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("CREATION", "Failed to read value.", error.toException());
+            }
+        });
+
+    }
+
+    public void getUserHoster(String username){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        //Get the user.
+        DatabaseReference ref  = database.getReference(username);
+
+        // Read from the database and check if userName fits to password.
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                userHoster = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("CREATION", "Failed to read value.", error.toException());
+            }
+        });
+
     }
 }

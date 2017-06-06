@@ -226,7 +226,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     @Override
     public void onClick(User u) {
         Intent intent = new Intent(this, RoomReservationActivity.class);
-        intent.putExtra("username", user.getUsername());
+        intent.putExtra("user", (Serializable) u);
         startActivity(intent);
 
     }
@@ -238,7 +238,6 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
 
     private void launchProfileActivity(){
         Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("username", user.getUsername());
         startActivity(intent);
     }
 

@@ -16,6 +16,8 @@ import java.util.logging.FileHandler;
 
 public class User implements Serializable{
     static final long serialVersionUID = 42L;
+    private static int counter = 0;
+    private int userID;
     private String name;
     private String surname;
     private String username;
@@ -29,6 +31,10 @@ public class User implements Serializable{
     private ArrayList<Trip> trips;
     private ArrayList<Evaluation> evaluations;
 
+    public User(){
+        name = "default";
+    }
+
     public User(String n, String sn, String un, String p, String t, String e){
         name = n;
         surname = sn;
@@ -36,6 +42,8 @@ public class User implements Serializable{
         password = p;
         telephone = t;
         email = e;
+        counter++;
+        this.userID = this.counter;
         availability = new ArrayList<>();
         trips = new ArrayList<Trip>();
         evaluations = new ArrayList<Evaluation>();
@@ -179,5 +187,9 @@ public class User implements Serializable{
 
     public void addTrip(Trip trip) {
         this.trips.add(trip);
+    }
+
+    public int getUserID(){
+        return this.userID;
     }
 }

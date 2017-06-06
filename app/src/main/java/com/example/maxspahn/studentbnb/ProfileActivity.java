@@ -141,7 +141,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        buttonChange.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+        buttonChange.setBackgroundColor(getResources().getColor(R.color.colorSecondaryDark));
         buttonChange.setTextColor(Color.WHITE);
         buttonChange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,14 +156,14 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        buttonRoom.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
+        buttonRoom.setBackgroundColor(getResources().getColor(R.color.colorSecondaryDark));
         buttonRoom.setTextColor(Color.WHITE);
         buttonRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 roomImage.setImageBitmap(null);
-                if (Image != null)
-                    Image.recycle();
+                if (Image2 != null)
+                    Image2.recycle();
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);

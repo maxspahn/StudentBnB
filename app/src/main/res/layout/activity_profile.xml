@@ -91,4 +91,12 @@
         app:itemTextColor="@color/white"
         app:menu="@menu/bottom_navigation_main"/>
 
+    <Button
+        android:id="@+id/buttonChange"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="50dp"
+        android:text="Change Profile" />
+
 </RelativeLayout>

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -33,13 +34,14 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView roomImage;
     private BottomNavigationView bottomNavigationView;
     private User user;
+    private Button buttonChange;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_profile); // here, you can create a single layout with a listview
+        setContentView(R.layout.activity_profile);
 
         //Intent i = getIntent();
         //user = (User) i.getSerializableExtra("user");
@@ -48,7 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         listView = (ListView) findViewById(R.id.listView);
 
-        String[] profileElements = {"Evaluations", "My Trips", "My Info", "Room Availability"};
+        String[] profileElements = {"My Trips", "My Info", "Room Availability"};
 
         ListAdapter profileAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, profileElements);
         listView.setAdapter(profileAdapter);
@@ -58,12 +60,6 @@ public class ProfileActivity extends AppCompatActivity {
                 String option = ((TextView) view).getText().toString();
 
                 switch (option) {
-                    case "Evaluations":
-                        Intent intent1 = new Intent(getApplicationContext(), EvaluationsActivity.class);
-                        intent1.putExtra("user", (Serializable) user);
-                        startActivity(intent1);
-                        break;
-
                     case "My Trips":
                         Intent intent2 = new Intent(getApplicationContext(), TripsActivity.class);
                         intent2.putExtra("user", (Serializable) user);
@@ -95,9 +91,10 @@ public class ProfileActivity extends AppCompatActivity {
         myResidence = (TextView) findViewById(R.id.myResidence);
         profileImage = (ImageView) findViewById(R.id.profileImage);
         roomImage = (ImageView) findViewById(R.id.roomImage);
+        buttonChange = (Button) findViewById(R.id.buttonChange);
 
 
-        nameText.setText(user.getName() + user.getSurname());
+        nameText.setText(user.getName() + " " + user.getSurname());
         myResidence.setText("My Room");
         residenceName.setText(user.getResidence().getName());
         residenceCity.setText(user.getResidence().getCity());
@@ -124,6 +121,15 @@ public class ProfileActivity extends AppCompatActivity {
                         break;
                 }
                 return true;
+            }
+        });
+
+        buttonChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ChangeProfileActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
             }
         });
 

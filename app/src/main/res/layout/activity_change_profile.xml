@@ -92,8 +92,7 @@
         android:layout_marginLeft="120dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        android:textColor="@color/wallet_bright_foreground_disabled_holo_light" />
+        android:textColor="@color/black" />
 
     <EditText
         android:id="@+id/editSurname"
@@ -104,8 +103,7 @@
         android:layout_toRightOf="@+id/textSurname"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        android:textColor="@color/wallet_bright_foreground_disabled_holo_light" />
+        android:textColor="@color/black" />
 
     <EditText
         android:id="@+id/editUsername"
@@ -116,8 +114,7 @@
         android:layout_toRightOf="@+id/textUsername"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        android:textColor="@color/wallet_bright_foreground_disabled_holo_light" />
+        android:textColor="@color/black" />
 
     <EditText
         android:id="@+id/editPassword"
@@ -128,8 +125,7 @@
         android:layout_toRightOf="@+id/textPassword"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        android:textColor="@color/wallet_bright_foreground_disabled_holo_light" />
+        android:textColor="@color/black" />
 
     <EditText
         android:id="@+id/editTelephone"
@@ -140,8 +136,7 @@
         android:layout_toRightOf="@+id/textTelephone"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        android:textColor="@color/wallet_bright_foreground_disabled_holo_light" />
+        android:textColor="@color/black" />
 
     <EditText
         android:id="@+id/editEmail"
@@ -152,8 +147,7 @@
         android:layout_toRightOf="@+id/textEmail"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        android:textColor="@color/wallet_bright_foreground_disabled_holo_light" />
+        android:textColor="@color/black" />
 
     <EditText
         android:id="@+id/editRoom"
@@ -164,16 +158,15 @@
         android:layout_toRightOf="@+id/textRoom"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
-        android:textColor="@color/wallet_bright_foreground_disabled_holo_light" />
+        android:textColor="@color/black" />
 
     <Button
         android:id="@+id/buttonImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="43dp"
-        android:text="Change Profile Image"
         android:layout_below="@+id/textRoom"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp"
+        android:text="Save Changes" />
 
 </RelativeLayout>

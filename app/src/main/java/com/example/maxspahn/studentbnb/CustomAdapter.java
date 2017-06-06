@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -31,8 +32,20 @@ public class CustomAdapter extends ArrayAdapter<Trip> {
         Trip singleTrip = getItem(position);
         TextView textCity = (TextView) evalView.findViewById(R.id.textCity);
         TextView textEval = (TextView) evalView.findViewById(R.id.textEval);
+        ImageView imageView = (ImageView) evalView.findViewById(R.id.imageView);
 
         textCity.setText(singleTrip.getHostUser().getResidence().getCity());
+
+        if(singleTrip.isList_tool()) {
+            imageView.setImageResource(R.mipmap.ic_house);
+            textCity.setText("You hosted at: " + singleTrip.getHostUser().getResidence().getCity());
+        } else {
+            imageView.setImageResource(R.drawable.ic_local_airport_blue_24dp);
+            textCity.setText("You visited: " + singleTrip.getHostUser().getResidence().getCity());
+        }
+
+
+
         if(singleTrip.getEvaluation() != null) {
             textEval.setText(singleTrip.getEvaluation().toString());
         } else {

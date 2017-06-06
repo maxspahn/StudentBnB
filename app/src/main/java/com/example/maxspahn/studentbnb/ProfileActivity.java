@@ -1,7 +1,12 @@
 package com.example.maxspahn.studentbnb;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
@@ -12,13 +17,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.graphics.Bitmap;
 
 import org.w3c.dom.Text;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -33,22 +42,30 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView roomImage;
     private BottomNavigationView bottomNavigationView;
     private User user;
+    private Button buttonChange;
+    private Button buttonRoom;
+    private static Bitmap Image = null;
+    private static Bitmap Image2 = null;
+    private static final int GALLERY = 1;
+    private static final int GALLERY2 = 2;
+    private static Bitmap rotateImage = null;
+    private static Bitmap rotateImage2 = null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_profile); // here, you can create a single layout with a listview
+        setContentView(R.layout.activity_profile);
 
-        //Intent i = getIntent();
-        //user = (User) i.getSerializableExtra("user");
+        Intent i = getIntent();
+        user = (User) i.getSerializableExtra("user");
 
         user = loadUserData();
 
         listView = (ListView) findViewById(R.id.listView);
 
-        String[] profileElements = {"Evaluations", "My Trips", "My Info", "Room Availability"};
+        String[] profileElements = {"My Trips", "My Info", "Room Availability"};
 
         ListAdapter profileAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, profileElements);
         listView.setAdapter(profileAdapter);
@@ -58,12 +75,6 @@ public class ProfileActivity extends AppCompatActivity {
                 String option = ((TextView) view).getText().toString();
 
                 switch (option) {
-                    case "Evaluations":
-                        Intent intent1 = new Intent(getApplicationContext(), EvaluationsActivity.class);
-                        intent1.putExtra("user", (Serializable) user);
-                        startActivity(intent1);
-                        break;
-
                     case "My Trips":
                         Intent intent2 = new Intent(getApplicationContext(), TripsActivity.class);
                         intent2.putExtra("user", (Serializable) user);
@@ -95,9 +106,11 @@ public class ProfileActivity extends AppCompatActivity {
         myResidence = (TextView) findViewById(R.id.myResidence);
         profileImage = (ImageView) findViewById(R.id.profileImage);
         roomImage = (ImageView) findViewById(R.id.roomImage);
+        buttonChange = (Button) findViewById(R.id.buttonChange);
+        buttonRoom = (Button) findViewById(R.id.buttonRoom);
 
 
-        nameText.setText(user.getName() + user.getSurname());
+        nameText.setText(user.getName() + " " + user.getSurname());
         myResidence.setText("My Room");
         residenceName.setText(user.getResidence().getName());
         residenceCity.setText(user.getResidence().getCity());
@@ -127,7 +140,86 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        buttonChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                profileImage.setImageBitmap(null);
+                if (Image != null)
+                    Image.recycle();
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY);
+            }
+        });
 
+        buttonRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                roomImage.setImageBitmap(null);
+                if (Image != null)
+                    Image.recycle();
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY2);
+            }
+        });
+
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == GALLERY && resultCode != 0) {
+            Uri mImageUri = data.getData();
+            try {
+                Image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mImageUri);
+                if (getOrientation(getApplicationContext(), mImageUri) != 0) {
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(getOrientation(getApplicationContext(), mImageUri));
+                    if (rotateImage != null)
+                        rotateImage.recycle();
+                    rotateImage = Bitmap.createBitmap(Image, 0, 0, Image.getWidth(), Image.getHeight(), matrix,true);
+                    profileImage.setImageBitmap(rotateImage);
+                } else
+                    profileImage.setImageBitmap(Image);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (requestCode == GALLERY2 && resultCode != 0) {
+            Uri mImageUri = data.getData();
+            try {
+                Image2 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mImageUri);
+                if (getOrientation(getApplicationContext(), mImageUri) != 0) {
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(getOrientation(getApplicationContext(), mImageUri));
+                    if (rotateImage2 != null)
+                        rotateImage2.recycle();
+                    rotateImage2 = Bitmap.createBitmap(Image2, 0, 0, Image2.getWidth(), Image2.getHeight(), matrix,true);
+                    roomImage.setImageBitmap(rotateImage2);
+                } else
+                    roomImage.setImageBitmap(Image2);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static int getOrientation(Context context, Uri photoUri) {
+        Cursor cursor = context.getContentResolver().query(photoUri,
+                new String[] { MediaStore.Images.ImageColumns.ORIENTATION },null, null, null);
+
+        if (cursor.getCount() != 1) {
+            return -1;
+        }
+        cursor.moveToFirst();
+        return cursor.getInt(0);
     }
 
     private User loadUserData() {

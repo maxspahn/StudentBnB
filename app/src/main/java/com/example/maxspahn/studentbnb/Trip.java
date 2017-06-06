@@ -13,6 +13,7 @@ public class Trip implements Serializable {
     User visitingUser;
     User hostUser;
     Evaluation evaluation = null;
+    boolean list_tool; // true if host
     //TODO option to evaluate trips
 
     public Trip(Date initialDate, Date finalDate, User u, User hostU) {
@@ -23,8 +24,8 @@ public class Trip implements Serializable {
     }
 
     public void confirmTrip() {
-        this.visitingUser.addTrip(this);
-        this.hostUser.addTrip(this);
+        this.visitingUser.addVisiting_trip(this);
+        this.hostUser.addHost_trip(this);
     }
 
     public Date getInitialDate() {
@@ -65,5 +66,11 @@ public class Trip implements Serializable {
 
     public void setHostUser(User hostUser) {
         this.hostUser = hostUser;
+    }
+
+    public void setList_tool(Boolean b) { this.list_tool = b; }
+
+    public boolean isList_tool() {
+        return list_tool;
     }
 }

@@ -28,7 +28,8 @@ public class User implements Serializable{
     private ArrayList<Date> availability;
     private Residence residence;
     //TODO save user pictures information as attribute to be displayed in App Activities
-    private ArrayList<Trip> trips;
+    private ArrayList<Trip> host_trips;
+    private ArrayList<Trip> visiting_trips;
     private ArrayList<Evaluation> evaluations;
 
     public User(){
@@ -45,7 +46,8 @@ public class User implements Serializable{
         counter++;
         this.userID = this.counter;
         availability = new ArrayList<>();
-        trips = new ArrayList<Trip>();
+        host_trips = new ArrayList<Trip>();
+        visiting_trips = new ArrayList<Trip>();
         evaluations = new ArrayList<Evaluation>();
     }
 
@@ -177,16 +179,28 @@ public class User implements Serializable{
         this.evaluations = evaluations;
     }
 
-    public ArrayList<Trip> getTrips() {
-        return trips;
+    public ArrayList<Trip> getHost_trips() {
+        return host_trips;
     }
 
-    public void setTrips(ArrayList<Trip> trips) {
-        this.trips = trips;
+    public void setHost_trips(ArrayList<Trip> host_trips) {
+        this.host_trips = host_trips;
     }
 
-    public void addTrip(Trip trip) {
-        this.trips.add(trip);
+    public void addHost_trip(Trip trip) {
+        this.host_trips.add(trip);
+    }
+
+    public ArrayList<Trip> getVisiting_trips() {
+        return visiting_trips;
+    }
+
+    public void setVisiting_trips(ArrayList<Trip> visiting_trips) {
+        this.visiting_trips = visiting_trips;
+    }
+
+    public void addVisiting_trip(Trip trip) {
+        this.visiting_trips.add(trip);
     }
 
     public int getUserID(){

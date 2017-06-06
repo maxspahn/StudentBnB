@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Arturo on 02/06/2017.
@@ -35,7 +36,44 @@ public class NewEvalActivity extends Activity {
 
         listView = (ListView) findViewById(R.id.listView);
 
-        allTrips = user.getTrips(); // Other way to convert to string?
+        ArrayList<Trip> host_trips = user.getHost_trips();
+        Collections.reverse(host_trips);
+        ArrayList<Trip> visiting_trips = user.getVisiting_trips();
+        Collections.reverse(visiting_trips);
+        allTrips = new ArrayList<Trip>();
+
+        int k1=0;
+        int k2=0;
+        Boolean stop1 = false;
+        Boolean stop2 = false;
+
+        // We add the trips in Date order (from most recent to least recent)
+        for(int j=0; j<(host_trips.size()+visiting_trips.size());j++) {
+            if(host_trips.get(k1).getFinalDate().before(visiting_trips.get(k2).getFinalDate()) && !stop1) {
+                visiting_trips.get(k2).setList_tool(false);
+                allTrips.add(visiting_trips.get(k2));
+                if(k2 < visiting_trips.size() - 1) {
+                    k2++;
+                } else {
+                    stop1 = true;
+                }
+            } else {
+                host_trips.get(k1).setList_tool(true);
+                allTrips.add(host_trips.get(k1));
+                if(k1 < host_trips.size() - 1)
+                    k1++;
+                else
+                    stop2 = true;
+            }
+            if(stop2 && !stop1){
+                while(k2 < visiting_trips.size()){
+                    allTrips.add(visiting_trips.get(k2));
+                    k2++;
+                }
+                j = host_trips.size()+visiting_trips.size();
+            }
+        }
+
         nonEvalTrips = new ArrayList<Trip>();
 
         for(Trip trip:allTrips) {

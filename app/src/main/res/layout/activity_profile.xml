@@ -12,14 +12,14 @@
         android:layout_height="30dp"
         android:text="TextView"
         android:textSize="18sp"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/residenceName"
         android:layout_alignLeft="@+id/profileImage"
         android:layout_alignStart="@+id/profileImage" />
 
     <TextView
         android:id="@+id/residenceName"
         android:layout_width="200dp"
-        android:layout_height="70dp"
+        android:layout_height="40dp"
         android:layout_alignLeft="@+id/residenceCity"
         android:layout_alignStart="@+id/residenceCity"
         android:layout_below="@+id/myResidence"
@@ -90,5 +90,22 @@
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
         app:menu="@menu/bottom_navigation_main"/>
+
+    <Button
+        android:id="@+id/buttonChange"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="50dp"
+        android:text="Change Profile" />
+
+    <Button
+        android:id="@+id/buttonRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/residenceCity"
+        android:layout_toLeftOf="@+id/roomImage"
+        android:layout_toStartOf="@+id/roomImage"
+        android:text="Change Room Image" />
 
 </RelativeLayout>

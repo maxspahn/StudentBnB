@@ -4,12 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,8 +38,7 @@ public class NewEvalActivity extends Activity {
 
         setContentView(R.layout.activity_new_eval);
 
-        Intent i = getIntent();
-        user = (User) i.getSerializableExtra("user");
+        getUser((String) getIntent().getStringExtra("username"));
 
         listView = (ListView) findViewById(R.id.listView);
 
@@ -92,6 +98,30 @@ public class NewEvalActivity extends Activity {
                 Intent intent = new Intent(getApplicationContext(), EvaluateActivity.class);
                 intent.putExtra("trip", (Serializable) chosenTrip);
                 startActivity(intent);
+            }
+        });
+
+    }
+
+    public void getUser(String username){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        //Get the user.
+        DatabaseReference ref  = database.getReference(username);
+
+        // Read from the database and check if userName fits to password.
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                user = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("CREATION", "Failed to read value.", error.toException());
             }
         });
 

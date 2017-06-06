@@ -1,5 +1,7 @@
 package com.example.maxspahn.studentbnb;
 
+import com.google.android.gms.vision.barcode.Barcode;
+
 import java.io.Serializable;
 import java.util.HashMap;
 
@@ -9,14 +11,17 @@ import java.util.HashMap;
 
 public class Residence implements Serializable{
     private String name;
-    //TODO add attribute indicating address to be used by map
+    private String strAddress;
+    private Barcode.GeoPoint p;
     private String city;
     private boolean parking;
     private HashMap<String,User> listOfUsers;
 
-    public Residence(String residenceName, String cit){
+    public Residence(String residenceName, String c, String ad){
         name = residenceName;
-        city = cit;
+        city = c;
+        strAddress = ad;
+        p = null;
         listOfUsers = new HashMap<String,User>();
     }
 
@@ -59,5 +64,21 @@ public class Residence implements Serializable{
 
     public void setListOfUsers(HashMap<String, User> listOfUsers) {
         this.listOfUsers = listOfUsers;
+    }
+
+    public String getStrAddress() {
+        return strAddress;
+    }
+
+    public void setStrAddress(String strAddress) {
+        this.strAddress = strAddress;
+    }
+
+    public Barcode.GeoPoint getP() {
+        return p;
+    }
+
+    public void setP(Barcode.GeoPoint p) {
+        this.p = p;
     }
 }

@@ -118,8 +118,6 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
 
     private void loadRoomData() {
         showRoomDataView();
-        System.out.println(initialDateButton.getText().toString());
-        System.out.println(finalDateButton.getText().toString());
         ArrayList<User> userData = new ArrayList<>();
         User newUser1 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
         User newUser2 = new User("Arturo", "Garrido", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
@@ -133,6 +131,22 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         User newUser10 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
         User newUser11 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
         User newUser12 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
+        try{
+            newUser1.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser2.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser3.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser4.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser5.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser6.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser7.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser8.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser9.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser10.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser11.addRoomAvailability("01/01/2017","31/12/2017");
+            newUser12.addRoomAvailability("01/01/2017","31/12/2017");
+        }catch(ParseException e){
+            System.out.println(e.getMessage());
+        }
         newUser1.registerRoom("E201");
         newUser2.registerRoom("E202");
         newUser3.registerRoom("E203");
@@ -145,7 +159,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         newUser10.registerRoom("E210");
         newUser11.registerRoom("E211");
         newUser12.registerRoom("E212");
-        Residence newResidence = new Residence("ECP", "Paris");
+        Residence newResidence = new Residence("ECP", "Paris", "5 Avenue Sully Prudhomme, 92290 Châtenay-Malabry");
         newUser1.setResidence(newResidence);
         newUser2.setResidence(newResidence);
         newUser3.setResidence(newResidence);
@@ -174,7 +188,6 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
 
         for(User u : userData){
             if(u.getResidence().getCity().toLowerCase().equals(destinationEditText.getText().toString().toLowerCase())){
-                dataToDisplay.add(u);
                 try{
                     if(u.isAvailable(initialDateButton.getText().toString(), finalDateButton.getText().toString())){
                         dataToDisplay.add(u);

@@ -9,10 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-        </activity>
-        <activity android:name=".SearchRoomActivity"></activity>
-        <activity android:name=".RoomReservationActivity"></activity>
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".SearchRoomActivity"/>
+        <activity android:name=".RoomReservationActivity"/>
         <activity android:name=".ProfileActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,11 +19,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InfoActivity"></activity>
-        <activity android:name=".TripsActivity"></activity>
-        <activity android:name=".EvaluationsActivity"></activity>
-        <activity android:name=".NewEvalActivity"></activity>
-        <activity android:name=".EvaluateActivity"></activity>
+        <activity android:name=".InfoActivity"/>
+        <activity android:name=".TripsActivity"/>
+        <activity android:name=".EvaluationsActivity"/>
+        <activity android:name=".NewEvalActivity"/>
+        <activity android:name=".EvaluateActivity"/>
+        <activity android:name=".AvailabilityActivity"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCH5urnMgnvnPXo36Uw-VP3Fsw04tZD0xg"/>
     </application>
 
 </manifest>

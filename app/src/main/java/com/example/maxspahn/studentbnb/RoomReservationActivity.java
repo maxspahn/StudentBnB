@@ -41,6 +41,12 @@ public class RoomReservationActivity extends FragmentActivity implements OnMapRe
     TextView usernameTextView;
     User userBooker;
     User userHoster;
+    String initDate;
+    String finalDate;
+    String[] initiald;
+    String[] finald;
+    Date dateini;
+    Date datefin;
 
     Button contactButton;
 
@@ -52,6 +58,12 @@ public class RoomReservationActivity extends FragmentActivity implements OnMapRe
         String[] s = bookerAndHoster.split("/");
         getUserBooker(s[0]);
         getUserHoster(s[1]);
+        initDate = s[2];
+        initiald = initDate.split("/");
+        dateini = new com.example.maxspahn.studentbnb.Date(Integer.parseInt(initiald[0]), Integer.parseInt(initiald[1]), Integer.parseInt(initiald[2]));
+        finalDate = s[3];
+        finald = finalDate.split("/");
+        datefin = new com.example.maxspahn.studentbnb.Date(Integer.parseInt(finald[0]), Integer.parseInt(finald[1]), Integer.parseInt(finald[2]));
 
         /*
         ***************************************Contact user related*******************************************************
@@ -62,27 +74,14 @@ public class RoomReservationActivity extends FragmentActivity implements OnMapRe
         contactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO notification to user that its room is reserved
+
+                Trip trip = new Trip(dateini, datefin, userBooker, userHoster);
+                userHoster.addHost_trip(trip);
+                userBooker.addVisiting_trip(trip);
+                
                 ShowMessage("Room reserved");
             }
         });
-
-
-        /*
-        ***************************************Google Map related*******************************************************
-         */
-
-        Residence res = userHoster.getResidence();
-        res.setP(getLocationFromAddress(res.getStrAddress()));
-        userHoster.setResidence(res);
-
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        usernameTextView = (TextView) findViewById(R.id.tv_username);
-        usernameTextView.setText(userHoster.getName() + " " + userHoster.getSurname());
-        usernameTextView = (TextView) findViewById(R.id.tv_residence);
-        usernameTextView.setText(userHoster.getResidence().getName());
     }
 
 
@@ -103,22 +102,21 @@ public class RoomReservationActivity extends FragmentActivity implements OnMapRe
         List<Address> address;
         Barcode.GeoPoint p1 = new Barcode.GeoPoint();;
 
-        try {
-            address = coder.getFromLocationName(strAddress,5);
-            if (address==null) {
-                return null;
-            }
-            Address location=address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-
-            p1.lat =( double) (location.getLatitude());
-            System.out.println(p1.lat);
-            p1.lng = (double) (location.getLongitude());
-            System.out.println(p1.lng);
-        }catch(IOException e){
-            System.out.println(e.getMessage());
+        /*address = coder.getFromLocationName(strAddress,5);
+        if (address==null) {
+            return null;
         }
+        Address location=address.get(0);
+        location.getLatitude();
+        location.getLongitude();
+
+        p1.lat =( double) (location.getLatitude());
+        System.out.println(p1.lat);
+        p1.lng = (double) (location.getLongitude());
+        System.out.println(p1.lng);*/
+        p1.lat = 48.762892;
+        p1.lng = 2.289373;
+
         return p1;
     }
 
@@ -135,7 +133,7 @@ public class RoomReservationActivity extends FragmentActivity implements OnMapRe
         DatabaseReference ref  = database.getReference(username);
 
         // Read from the database and check if userName fits to password.
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -159,12 +157,28 @@ public class RoomReservationActivity extends FragmentActivity implements OnMapRe
         DatabaseReference ref  = database.getReference(username);
 
         // Read from the database and check if userName fits to password.
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 userHoster = dataSnapshot.getValue(User.class);
+
+
+                /*
+                ***************************************Google Map related*******************************************************
+                 */
+
+                Residence res = userHoster.getResidence();
+                res.setP(getLocationFromAddress(res.getStrAddress()));
+                userHoster.setResidence(res);
+
+                getMap();
+
+                usernameTextView = (TextView) findViewById(R.id.tv_username);
+                usernameTextView.setText(userHoster.getName() + " " + userHoster.getSurname());
+                usernameTextView = (TextView) findViewById(R.id.tv_residence);
+                usernameTextView.setText(userHoster.getResidence().getName());
             }
 
             @Override
@@ -173,6 +187,12 @@ public class RoomReservationActivity extends FragmentActivity implements OnMapRe
                 Log.w("CREATION", "Failed to read value.", error.toException());
             }
         });
+
+    }
+    public void getMap(){
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
     }
 }

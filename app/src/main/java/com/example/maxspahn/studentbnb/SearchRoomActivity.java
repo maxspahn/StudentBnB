@@ -41,7 +41,12 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     protected Button initialDateButton;
     protected Button finalDateButton;
     public User user;
+    public ArrayList<User> users = new ArrayList<User>();
     public String username;
+    public String initDate = "";
+    public String finalDate = "";
+    public String destination = "";
+    public ArrayList<String> keys = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
     private RoomAdapter mRoomAdapter; // adapter to fill recycler view with data
@@ -54,6 +59,11 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_room);
+        username = (String) getIntent().getStringExtra("username");
+        getUser(username);
+    }
+
+    public void getInfo(final User userTemp){
         /*
         ***************************************Reservation related*******************************************************
          */
@@ -68,9 +78,12 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(destinationEditText.getText().toString().equals("") || initialDateButton.getText().toString().toUpperCase().equals("INIT DATE") || finalDateButton.getText().toString().toUpperCase().equals("FINAL DATE")){
+                if (destinationEditText.getText().toString().equals("") || initialDateButton.getText().toString().toUpperCase().equals("INIT DATE") || finalDateButton.getText().toString().toUpperCase().equals("FINAL DATE")) {
                     ShowMessage("Fill all fields");
-                } else{
+                } else {
+                    initDate = initialDateButton.getText().toString();
+                    finalDate = finalDateButton.getText().toString();
+                    destination = destinationEditText.getText().toString().toLowerCase();
                     loadRoomData();
                 }
             }
@@ -92,9 +105,9 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
                 newFragment.setActivity(false, initialDateButton.getText().toString());
             }
         });
-        /*
-        ***************************************Room offers related*******************************************************
-         */
+    /*
+    ***************************************Room offers related*******************************************************
+     */
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -103,9 +116,9 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         mRoomAdapter = new RoomAdapter(this);
 
         mRecyclerView.setAdapter(mRoomAdapter);
-        /*
-        ***************************************Bottom menu related*******************************************************
-         */
+    /*
+    ***************************************Bottom menu related*******************************************************
+     */
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -127,29 +140,9 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         });
     }
 
-    private void loadRoomData() {
+    private void loadRoomData(){
         showRoomDataView();
-        ArrayList<User> userData = new ArrayList<>();
-        ArrayList<User> dataToDisplay = new ArrayList<>();
-
-        for(User u : userData){
-            if(u.getResidence().getCity().toLowerCase().equals(destinationEditText.getText().toString().toLowerCase())){
-                try{
-                    if(u.isAvailable(initialDateButton.getText().toString(), finalDateButton.getText().toString())){
-                        dataToDisplay.add(u);
-                    }
-                }catch (ParseException e){
-                    System.out.println(e.getMessage());
-                }
-            }
-
-        }
-
-        if(dataToDisplay.size() == 0){
-            ShowMessage("No room available.");
-        }else{
-            mRoomAdapter.setRoomData(dataToDisplay);
-        }
+        getUsers("maxspahn");
     }
 
     private void showRoomDataView(){
@@ -190,12 +183,57 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         DatabaseReference ref  = database.getReference(username);
 
         // Read from the database and check if userName fits to password.
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 user = dataSnapshot.getValue(User.class);
+                getInfo(user);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("CREATION", "Failed to read value.", error.toException());
+            }
+        });
+
+    }
+
+    public void getUsers(String username){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        //Get the user.
+        DatabaseReference ref  = database.getReference(username);
+
+
+        // Read from the database and check if userName fits to password.
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                user = dataSnapshot.getValue(User.class);
+                ArrayList<User> dataToDisplay = new ArrayList<User>();
+                dataToDisplay.add(user);
+                /*
+                if(user.getResidence().getCity().toLowerCase().equals(destination)) {
+                    try {
+                        if (user.isAvailable(initDate, finalDate)) {
+                            users.add(user);
+                        }
+                    } catch (ParseException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+                */
+                if(dataToDisplay.size() == 0){
+                    ShowMessage("No room available.");
+                }else{
+                    System.out.print(dataToDisplay.size());
+                    mRoomAdapter.setRoomData(dataToDisplay);
+                }
             }
 
             @Override

@@ -36,7 +36,7 @@ public class User implements Serializable{
         name = "default";
     }
 
-    public User(String n, String sn, String un, String p, String t, String e){
+    public User(String n, String sn, String un, String p, String t, String e, Residence r){
         name = n;
         surname = sn;
         username = un;
@@ -49,6 +49,7 @@ public class User implements Serializable{
         host_trips = new ArrayList<Trip>();
         visiting_trips = new ArrayList<Trip>();
         evaluations = new ArrayList<Evaluation>();
+        this.residence = r;
     }
 
     /*

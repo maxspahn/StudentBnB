@@ -26,6 +26,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 /*
 secondary activity accessed after log in activity
@@ -41,6 +43,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     protected Button initialDateButton;
     protected Button finalDateButton;
     public User user;
+    public HashMap<String, User> users = new HashMap<>();
 
     private RecyclerView mRecyclerView;
     private RoomAdapter mRoomAdapter; // adapter to fill recycler view with data
@@ -61,10 +64,24 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         initialDateButton = (Button) findViewById(R.id.b_initdate);
         finalDateButton = (Button) findViewById(R.id.b_findate);
 
+        user = new User();
         String usernameInit = (String) getIntent().getStringExtra("username");
+        System.out.println(usernameInit);
         getUser(usernameInit);
 
-        System.out.println(usernameInit);
+        //UserThread ut = new UserThread(usernameInit);
+        //ut.start();
+        //try {
+        //    ut.join();
+        //} catch (InterruptedException e) {
+        //    e.printStackTrace();
+        //    System.out.println("Oooojooooooo no funciona el thread");
+        //}
+
+        //user = ut.getUser();
+
+        //System.out.println(user.getName().toString());
+
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,71 +148,6 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     private void loadRoomData() {
         showRoomDataView();
         ArrayList<User> userData = new ArrayList<>();
-        User newUser1 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        User newUser2 = new User("Arturo", "Garrido", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        User newUser3 = new User("Max", "Spahn", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        User newUser4 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        User newUser5 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        User newUser6 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        User newUser7 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        User newUser8 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        User newUser9 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        User newUser10 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        User newUser11 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        User newUser12 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        try{
-            newUser1.addRoomAvailability("01/01/2017","31/12/2017");
-            newUser2.addRoomAvailability("01/01/2017","31/12/2017");
-            newUser3.addRoomAvailability("01/01/2017","31/12/2017");
-            newUser4.addRoomAvailability("01/01/2017","31/12/2017");
-            newUser5.addRoomAvailability("01/01/2017","31/12/2017");
-            newUser6.addRoomAvailability("01/01/2017","31/12/2017");
-            newUser7.addRoomAvailability("01/01/2017","31/12/2017");
-            newUser8.addRoomAvailability("01/01/2017","31/12/2017");
-            newUser9.addRoomAvailability("01/01/2017","31/12/2017");
-            newUser10.addRoomAvailability("01/01/2017","31/12/2017");
-            newUser11.addRoomAvailability("01/01/2017","31/12/2017");
-            newUser12.addRoomAvailability("01/01/2017","31/12/2017");
-        }catch(ParseException e){
-            System.out.println(e.getMessage());
-        }
-        newUser1.registerRoom("E201");
-        newUser2.registerRoom("E202");
-        newUser3.registerRoom("E203");
-        newUser4.registerRoom("E204");
-        newUser5.registerRoom("E205");
-        newUser6.registerRoom("E206");
-        newUser7.registerRoom("E207");
-        newUser8.registerRoom("E208");
-        newUser9.registerRoom("E209");
-        newUser10.registerRoom("E210");
-        newUser11.registerRoom("E211");
-        newUser12.registerRoom("E212");
-        Residence newResidence = new Residence("ECP", "Paris", "5 Avenue Sully Prudhomme, 92290 Châtenay-Malabry");
-        newUser1.setResidence(newResidence);
-        newUser2.setResidence(newResidence);
-        newUser3.setResidence(newResidence);
-        newUser4.setResidence(newResidence);
-        newUser5.setResidence(newResidence);
-        newUser6.setResidence(newResidence);
-        newUser7.setResidence(newResidence);
-        newUser8.setResidence(newResidence);
-        newUser9.setResidence(newResidence);
-        newUser10.setResidence(newResidence);
-        newUser11.setResidence(newResidence);
-        newUser12.setResidence(newResidence);
-        userData.add(newUser1);
-        userData.add(newUser2);
-        userData.add(newUser3);
-        userData.add(newUser4);
-        userData.add(newUser5);
-        userData.add(newUser6);
-        userData.add(newUser7);
-        userData.add(newUser8);
-        userData.add(newUser9);
-        userData.add(newUser10);
-        userData.add(newUser11);
-        userData.add(newUser12);
         ArrayList<User> dataToDisplay = new ArrayList<>();
 
         for(User u : userData){
@@ -226,7 +178,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     @Override
     public void onClick(User u) {
         Intent intent = new Intent(this, RoomReservationActivity.class);
-        intent.putExtra("user", (Serializable) u);
+        intent.putExtra("username", user.getUsername());
         startActivity(intent);
 
     }
@@ -238,6 +190,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
 
     private void launchProfileActivity(){
         Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("username2", user.getUsername());
         startActivity(intent);
     }
 
@@ -245,15 +198,19 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         //Get the user.
-        DatabaseReference ref  = database.getReference(username);
+        DatabaseReference ref  = database.getReference("users");
+
+        DatabaseReference ref2 = ref.child(username);
 
         // Read from the database and check if userName fits to password.
-        ref.addValueEventListener(new ValueEventListener() {
+        ref2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                user = dataSnapshot.getValue(User.class);
+                user = (User) dataSnapshot.getValue(User.class);
+                System.out.println("Aaaaaaaaaaaaaaaaaaateeeeenciooooooooooon ");
+                System.out.println(user.getName());
             }
 
             @Override
@@ -263,6 +220,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
             }
         });
 
+        System.out.println(user.getName());
     }
 
     @Override

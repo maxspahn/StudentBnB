@@ -70,7 +70,6 @@ public class ProfileActivity extends AppCompatActivity {
         String usernameInit = (String) getIntent().getStringExtra("username");
         getUser(usernameInit);
 
-        System.out.println(usernameInit);
 
         try {
             TimeUnit.SECONDS.sleep(3);
@@ -125,7 +124,7 @@ public class ProfileActivity extends AppCompatActivity {
         buttonRoom = (Button) findViewById(R.id.buttonRoom);
 
 
-        nameText.setText(user.getName() + " " + user.getSurname());
+        nameText.setText(user.getName().toString() + " " + user.getSurname().toString());
         myResidence.setText("My Room");
         residenceName.setText(user.getResidence().getName());
         residenceCity.setText(user.getResidence().getCity());
@@ -245,15 +244,17 @@ public class ProfileActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         //Get the user.
-        DatabaseReference ref  = database.getReference(username);
+        DatabaseReference ref  = database.getReference("users");
+
+        DatabaseReference ref2 = ref.child(username);
 
         // Read from the database and check if userName fits to password.
-        ref.addValueEventListener(new ValueEventListener() {
+        ref2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                user = dataSnapshot.getValue(User.class);
+                user = (User) dataSnapshot.getValue(User.class);
             }
 
             @Override
@@ -265,34 +266,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private User loadUserData() {
-        User newUser1 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        User newUser2 = new User("Arturo", "Garrido", "arturogc", "arthur", "0782683879", "arturo.garrido.contreras@gmail.com");
-
-        Residence ecp = new Residence("Ecole Centrale", "Paris", "5 Avenue Sully Prudhomme, 92290 Châtenay-Malabry");
-        newUser2.setResidence(ecp);
-        ecp.addUser(newUser2);
-        newUser2.setRoomNumber("E221");
-        Residence sp = new Residence("San Pablo", "Madrid", "Calle de Isaac Peral, 58, 28040 Madrid, Espagne");
-        newUser1.setResidence(sp);
-        sp.addUser(newUser1);
-        newUser1.setRoomNumber("B101");
-
-
-        Trip trip1 = new Trip(new Date(2016, 06, 13), new Date(2016, 06, 20), newUser1, newUser2);
-        trip1.setEvaluation(Evaluation.GOOD);
-        trip1.confirmTrip();
-
-        Trip trip2 = new Trip(new Date(2017, 02, 5), new Date(2017, 02, 8), newUser2, newUser1);
-        trip2.setEvaluation(Evaluation.EXCELLENT);
-        trip2.confirmTrip();
-
-        Trip trip3 = new Trip(new Date(2017, 04, 10), new Date(2017, 04, 15), newUser2, newUser1);
-        trip3.confirmTrip();
-
-        return newUser2;
-
-    }
 
     private void launchSearchRoomActivity(){
         Intent intent = new Intent(this, SearchRoomActivity.class);

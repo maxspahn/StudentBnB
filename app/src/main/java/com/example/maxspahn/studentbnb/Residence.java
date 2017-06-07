@@ -25,6 +25,10 @@ public class Residence implements Serializable{
         listOfUsers = new HashMap<String,User>();
     }
 
+    public Residence() {
+
+    }
+
     public void addUser(User u){
         if(listOfUsers.values().contains(u)){
             //TODO display room already added to residence

@@ -17,9 +17,6 @@ public class Residence implements Serializable{
     private boolean parking;
     private HashMap<String,User> listOfUsers;
 
-    public Residence(){
-
-    }
 
     public Residence(String residenceName, String c, String ad){
         name = residenceName;

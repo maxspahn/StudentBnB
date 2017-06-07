@@ -280,34 +280,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private User loadUserData() {
-        User newUser1 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        User newUser2 = new User("Arturo", "Garrido", "arturogc", "arthur", "0782683879", "arturo.garrido.contreras@gmail.com");
-
-        Residence ecp = new Residence("Ecole Centrale", "Paris", "5 Avenue Sully Prudhomme, 92290 Châtenay-Malabry");
-        newUser2.setResidence(ecp);
-        ecp.addUser(newUser2);
-        newUser2.setRoomNumber("E221");
-        Residence sp = new Residence("San Pablo", "Madrid", "Calle de Isaac Peral, 58, 28040 Madrid, Espagne");
-        newUser1.setResidence(sp);
-        sp.addUser(newUser1);
-        newUser1.setRoomNumber("B101");
-
-
-        Trip trip1 = new Trip(new Date(2016, 06, 13), new Date(2016, 06, 20), newUser1, newUser2);
-        trip1.setEvaluation(Evaluation.GOOD);
-        trip1.confirmTrip();
-
-        Trip trip2 = new Trip(new Date(2017, 02, 5), new Date(2017, 02, 8), newUser2, newUser1);
-        trip2.setEvaluation(Evaluation.EXCELLENT);
-        trip2.confirmTrip();
-
-        Trip trip3 = new Trip(new Date(2017, 04, 10), new Date(2017, 04, 15), newUser2, newUser1);
-        trip3.confirmTrip();
-
-        return newUser2;
-
-    }
 
     private void launchSearchRoomActivity(){
         Intent intent = new Intent(this, SearchRoomActivity.class);

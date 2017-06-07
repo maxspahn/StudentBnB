@@ -9,22 +9,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/name"
-        android:hint="name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/surname"
-        android:hint="surname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:id="@+id/name"
+            android:hint="name"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/surname"
+            android:hint="surname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
 
     <EditText
         android:id="@+id/email"
         android:hint="email"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content" />
 
     <EditText
@@ -32,6 +46,8 @@
         android:hint="telephone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/password1"
@@ -46,6 +62,41 @@
         android:password="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <EditText
+            android:id="@+id/residenceName"
+            android:hint="Residence name"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/city"
+            android:hint="City"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/parking"
+            android:text="Parking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/adress"
+            android:hint="Adress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"

@@ -16,6 +16,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -34,6 +36,9 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
     protected Button initialDateButton;
     protected Button finalDateButton;
 
+
+    private StorageReference mStorageRef;
+
     public String username;
 
     private RecyclerView mRecyclerView;
@@ -47,7 +52,7 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avalability);
 
-        username = getIntent().getStringExtra("usernam");
+        username = getIntent().getStringExtra("username");
 
         getUser(username);
 
@@ -71,6 +76,12 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
             public void onClick(View v) {
                 try{
                     tempuser.addRoomAvailability(initialDateButton.getText().toString(),finalDateButton.getText().toString());
+
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    mStorageRef = FirebaseStorage.getInstance().getReference();
+                    DatabaseReference ref = database.getReference(tempuser.getUsername());
+                    ref.setValue(tempuser);
+
                     loadAvailabilityData(tempuser);
                 }catch(ParseException e){
                     System.out.println(e.getMessage());
@@ -85,6 +96,12 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
                     ShowMessage("Click on availabilities");
                 }else{
                     tempuser.getAvailability().remove(toDelete);
+
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    mStorageRef = FirebaseStorage.getInstance().getReference();
+                    DatabaseReference ref = database.getReference(username);
+                    ref.setValue(tempuser);
+
                     loadAvailabilityData(tempuser);
                 }
             }
@@ -125,10 +142,13 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
     private void loadAvailabilityData(User tempuser) {
         showRoomDataView();
 
+
+
         ArrayList<Date> dataToDisplay = new ArrayList<>();
 
         for(Date d : tempuser.getAvailability()){
             dataToDisplay.add(d);
+            Log.d("CREATION", "in load Availability");
         }
 
         if(dataToDisplay.size() == 0){
@@ -176,6 +196,10 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
                 Log.w("CREATION", "Failed to read value.", error.toException());
             }
         });
+
+
+
+
 
     }
 

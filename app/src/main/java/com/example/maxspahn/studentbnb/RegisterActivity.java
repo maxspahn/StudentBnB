@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +32,10 @@ public class RegisterActivity extends Activity {
     public EditText email;
     public EditText telephone;
     public EditText name;
+    public EditText residence;
+    public EditText adress;
+    public EditText city;
+    public RadioButton parking;
     private StorageReference mStorageRef;
 
 
@@ -50,6 +55,10 @@ public class RegisterActivity extends Activity {
         name = (EditText) findViewById(R.id.name);
         password1 = (EditText) findViewById(R.id.password1);
         password2 = (EditText) findViewById(R.id.password2);
+        residence = (EditText) findViewById(R.id.residenceName);
+        adress = (EditText) findViewById(R.id.adress);
+        city = (EditText) findViewById(R.id.city);
+        parking = (RadioButton) findViewById(R.id.parking);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,9 +99,15 @@ public class RegisterActivity extends Activity {
         String surnameT = surname.getText().toString();
         String passwordT = password1.getText().toString();
         String passwordT2 = password2.getText().toString();
+        String residenceT = residence.getText().toString();
+        String cityT = city.getText().toString();
+        String adressT = adress.getText().toString();
 
         if(passwordT.equals(passwordT2)) {
             User tempUser = new User(nameT, surnameT, usernameT, passwordT, telT, emailT);
+            Residence tempres = new Residence(residenceT, cityT, adressT);
+            tempUser.setResidence(tempres);
+
             DatabaseReference ref = database.getReference(tempUser.getUsername());
             ref.setValue(tempUser);
             freeFields();
@@ -114,6 +129,10 @@ public class RegisterActivity extends Activity {
         email.setText("");
         telephone.setText("");
         name.setText("");
+        city.setText("");
+        residence.setText("");
+        adress.setText("");
+        parking.setChecked(false);
 
 
 

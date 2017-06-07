@@ -24,7 +24,10 @@ public class MainActivity extends AppCompatActivity {
     public EditText username;
     public EditText password;
     public static User user;
+    String userNAME;
+    DatabaseReference ref;
 
+    ValueEventListener listenerFire;
     Toast toast;
     Toast toast2;
 
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         username = (EditText) findViewById(R.id.usernameL);
         password = (EditText) findViewById(R.id.passwordL);
@@ -61,36 +66,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-    }
 
-    private void login(){
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-        //Get the user name from EditText.
-        final String userNAME = username.getText().toString();
-        DatabaseReference ref  = database.getReference(userNAME);
-
-        // Read from the database and check if userName fits to password.
-        ref.addValueEventListener(new ValueEventListener() {
+        listenerFire = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 User user = dataSnapshot.getValue(User.class);
-                if(user == null){
+                if (user == null) {
                     toast = Toast.makeText(getApplicationContext(), "This user does not exist!", Toast.LENGTH_SHORT);
                     toast.show();
-                }
-                else {
+                } else {
                     String passWORD = password.getText().toString();
 
                     // if password is correct the new activity is started.
                     if (user.getPassword().equals(passWORD)) {
                         launch(userNAME);
                         testing(user);
-                    }
-                    else{
+                    } else {
                         toast2 = Toast.makeText(getApplicationContext(), "The password is not correct", Toast.LENGTH_SHORT);
                         toast2.show();
                     }
@@ -102,13 +95,24 @@ public class MainActivity extends AppCompatActivity {
                 // Failed to read value
                 Log.w("CREATION", "Failed to read value.", error.toException());
             }
-        });
+        };
+    }
+
+    private void login(){
+
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        //Get the user name from EditText.
+        userNAME = username.getText().toString();
+        ref  = database.getReference(userNAME);
+        ref.addValueEventListener(listenerFire);
 
     }
 
 
     private void testing (User user){
-        Log.d("CREATION", "username : " + user.getEmail());
+        Log.d("CREATION", "username in main : " + user.getEmail());
     }
 
 
@@ -119,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
     private void launch(String username){
         Intent intent = new Intent(this, SearchRoomActivity.class);
         intent.putExtra("username", username);
+        ref.removeEventListener(listenerFire);
         startActivity(intent);
     }
 

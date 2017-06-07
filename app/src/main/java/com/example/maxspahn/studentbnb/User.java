@@ -25,12 +25,14 @@ public class User implements Serializable{
     private String telephone;
     private String email;
     private String roomNumber;
-    private ArrayList<Date> availability;
+    private ArrayList<Date> availability = new ArrayList<>();
     private Residence residence;
     //TODO save user pictures information as attribute to be displayed in App Activities
-    private ArrayList<Trip> host_trips;
-    private ArrayList<Trip> visiting_trips;
-    private ArrayList<Evaluation> evaluations;
+    private ArrayList<Trip> host_trips = new ArrayList<>();
+    private ArrayList<Trip> visiting_trips = new ArrayList<>();
+    private ArrayList<Evaluation> evaluations = new ArrayList<>();
+
+
 
     public User(){
         name = "default";
@@ -45,10 +47,6 @@ public class User implements Serializable{
         email = e;
         counter++;
         this.userID = this.counter;
-        availability = new ArrayList<>();
-        host_trips = new ArrayList<Trip>();
-        visiting_trips = new ArrayList<Trip>();
-        evaluations = new ArrayList<Evaluation>();
     }
 
     /*

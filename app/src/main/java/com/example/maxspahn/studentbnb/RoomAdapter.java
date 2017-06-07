@@ -66,7 +66,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomAdapterVie
     public void onBindViewHolder(RoomAdapterViewHolder roomAdapterViewHolder, int position) {
         User u = mUserData.get(position);
         roomAdapterViewHolder.userTextView.setText(u.getName() + " " + u.getSurname());
-        roomAdapterViewHolder.residenceTextView.setText(u.getResidence().getName());
+        //roomAdapterViewHolder.residenceTextView.setText(u.getResidence().getName());
     }
     /*
     get total number of items in data array

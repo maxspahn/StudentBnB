@@ -25,7 +25,7 @@ public class User implements Serializable{
     private String telephone;
     private String email;
     private String roomNumber;
-    private ArrayList<Date> availability = new ArrayList<>();
+    private ArrayList<com.example.maxspahn.studentbnb.Date> availability;
     private Residence residence;
     //TODO save user pictures information as attribute to be displayed in App Activities
     private ArrayList<Trip> host_trips = new ArrayList<>();
@@ -69,8 +69,9 @@ public class User implements Serializable{
         end.setTime(fDate);
         end.add(Calendar.DATE, 1);
         for (Date date = start.getTime(); date.before(end.getTime()); start.add(Calendar.DATE, 1), date = start.getTime()){
-            if(!availability.contains(date)){
-                availability.add(date);
+            com.example.maxspahn.studentbnb.Date myDate = new com.example.maxspahn.studentbnb.Date(date.getDay(),date.getMonth(),date.getYear());
+            if(!availability.contains(myDate)){
+                availability.add(myDate);
             }
         }
     }
@@ -87,7 +88,8 @@ public class User implements Serializable{
         Calendar end = Calendar.getInstance();
         end.setTime(fDate);
         for (Date date = start.getTime(); date.before(end.getTime()); start.add(Calendar.DATE, 1), date = start.getTime()){
-            if(!availability.contains(date)){
+            com.example.maxspahn.studentbnb.Date myDate = new com.example.maxspahn.studentbnb.Date(date.getDay(),date.getMonth(),date.getYear());
+            if(!availability.contains(myDate)){
                 return false;
             }
         }
@@ -153,11 +155,11 @@ public class User implements Serializable{
         this.roomNumber = roomNumber;
     }
 
-    public ArrayList<Date> getAvailability() {
+    public ArrayList<com.example.maxspahn.studentbnb.Date> getAvailability() {
         return availability;
     }
 
-    public void setAvailability(ArrayList<Date> availability) {
+    public void setAvailability(ArrayList<com.example.maxspahn.studentbnb.Date> availability) {
         this.availability = availability;
     }
 

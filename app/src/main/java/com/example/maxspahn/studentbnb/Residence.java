@@ -17,9 +17,6 @@ public class Residence implements Serializable{
     private boolean parking;
     private HashMap<String,User> listOfUsers;
 
-    public Residence(){
-
-    }
 
     public Residence(String residenceName, String c, String ad){
         name = residenceName;
@@ -27,6 +24,10 @@ public class Residence implements Serializable{
         strAddress = ad;
         p = null;
         listOfUsers = new HashMap<String,User>();
+    }
+
+    public Residence() {
+
     }
 
     public void addUser(User u){

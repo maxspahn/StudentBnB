@@ -52,7 +52,6 @@ public class ChangeProfileActivity extends Activity {
 
         editName = (EditText) findViewById(R.id.editName);
         editSurname = (EditText) findViewById(R.id.editSurname);
-        editUsername = (EditText) findViewById(R.id.editUsername);
         editPassword = (EditText) findViewById(R.id.editPassword);
         editTelephone = (EditText) findViewById(R.id.editTelephone);
         editEmail = (EditText) findViewById(R.id.editEmail);
@@ -60,11 +59,12 @@ public class ChangeProfileActivity extends Activity {
 
         editName.setHint(tempuser.getName());
         editSurname.setHint(tempuser.getSurname());
-        editUsername.setHint(tempuser.getUsername());
         editPassword.setHint("*********");
         editTelephone.setHint(tempuser.getTelephone());
         editEmail.setHint(tempuser.getEmail());
         editRoom.setHint(tempuser.getRoomNumber());
+
+
 
 
         buttonImage = (Button) findViewById(R.id.buttonImage);
@@ -73,6 +73,37 @@ public class ChangeProfileActivity extends Activity {
         buttonImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //String newName = editName.getText().toString();
+                if(!editName.getText().toString().equals("")) {
+                    tempuser.setName(editName.getText().toString());
+                    editName.setText("");
+                }
+
+                String newSurname = editSurname.getText().toString();
+                if(!newSurname.equals("")) {
+                    tempuser.setSurname(newSurname);
+                }
+
+                if(!editPassword.getText().toString().equals("")) {
+                    tempuser.setPassword(editPassword.getText().toString());
+                    editPassword.setText("");
+                }
+
+                if(!editTelephone.getText().toString().equals("")) {
+                    tempuser.setTelephone(editTelephone.getText().toString());
+                    editTelephone.setText("");
+                }
+
+                if(!editEmail.getText().toString().equals("")) {
+                    tempuser.setEmail(editEmail.getText().toString());
+                    editEmail.setText("");
+                }
+
+                if(!editRoom.getText().toString().equals("")) {
+                    tempuser.setRoomNumber(editRoom.getText().toString());
+                    editRoom.setText("");
+                }
+
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 mStorageRef = FirebaseStorage.getInstance().getReference();

@@ -86,9 +86,6 @@ public class ProfileActivity extends AppCompatActivity {
         Log.d("CREATION", "Usertemp name : " + userTemp.getName());
 
 
-
-        userTemp.setSurname("maria");
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         DatabaseReference ref = database.getReference(userTemp.getUsername());

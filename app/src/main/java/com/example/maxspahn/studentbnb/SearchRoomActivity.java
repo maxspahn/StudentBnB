@@ -40,7 +40,8 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     private Button searchButton;
     protected Button initialDateButton;
     protected Button finalDateButton;
-    public User user;
+    public User booker;
+    public User hoster;
     public ArrayList<User> users = new ArrayList<User>();
     public String username;
     public String initDate = "";
@@ -61,6 +62,21 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         setContentView(R.layout.activity_search_room);
         username = (String) getIntent().getStringExtra("username");
         getUser(username);
+
+
+        /*
+        ***************************************Room offers related*******************************************************
+        */
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+
+        mRoomAdapter = new RoomAdapter(this);
+
+        mRecyclerView.setAdapter(mRoomAdapter);
+
     }
 
     public void getInfo(final User userTemp){
@@ -106,17 +122,6 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
             }
         });
     /*
-    ***************************************Room offers related*******************************************************
-     */
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
-
-        mRoomAdapter = new RoomAdapter(this);
-
-        mRecyclerView.setAdapter(mRoomAdapter);
-    /*
     ***************************************Bottom menu related*******************************************************
      */
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -153,14 +158,8 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     @Override
     public void onClick(User u) {
         Intent intent = new Intent(this, RoomReservationActivity.class);
-        intent.putExtra("user", (Serializable) u);
+        intent.putExtra("username",  booker.getUsername() + "/" + u.getUsername() + "/" + initDate + "/" + finalDate);
         startActivity(intent);
-
-    }
-
-
-    private void testing (User user){
-        Log.d("CREATION", "username : " + user.getEmail());
 
     }
 
@@ -188,8 +187,8 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                user = dataSnapshot.getValue(User.class);
-                getInfo(user);
+                booker = dataSnapshot.getValue(User.class);
+                getInfo(booker);
             }
 
             @Override
@@ -214,9 +213,9 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                user = dataSnapshot.getValue(User.class);
+                hoster = dataSnapshot.getValue(User.class);
                 ArrayList<User> dataToDisplay = new ArrayList<User>();
-                dataToDisplay.add(user);
+                dataToDisplay.add(hoster);
                 /*
                 if(user.getResidence().getCity().toLowerCase().equals(destination)) {
                     try {

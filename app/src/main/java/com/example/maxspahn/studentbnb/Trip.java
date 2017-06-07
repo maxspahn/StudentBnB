@@ -8,15 +8,15 @@ import java.util.Date;
  */
 
 public class Trip implements Serializable {
-    Date initialDate;
-    Date finalDate;
+    com.example.maxspahn.studentbnb.Date initialDate;
+    com.example.maxspahn.studentbnb.Date finalDate;
     User visitingUser;
     User hostUser;
     Evaluation evaluation = null;
     boolean list_tool; // true if host
     //TODO option to evaluate trips
 
-    public Trip(Date initialDate, Date finalDate, User u, User hostU) {
+    public Trip(com.example.maxspahn.studentbnb.Date initialDate, com.example.maxspahn.studentbnb.Date finalDate, User u, User hostU) {
         this.initialDate = initialDate;
         this.finalDate = finalDate;
         this.visitingUser = u;
@@ -28,11 +28,11 @@ public class Trip implements Serializable {
         this.hostUser.addHost_trip(this);
     }
 
-    public Date getInitialDate() {
+    public com.example.maxspahn.studentbnb.Date getInitialDate() {
         return initialDate;
     }
 
-    public void setInitialDate(Date initialDate) {
+    public void setInitialDate(com.example.maxspahn.studentbnb.Date initialDate) {
         this.initialDate = initialDate;
     }
 
@@ -44,11 +44,11 @@ public class Trip implements Serializable {
         this.visitingUser = visitingUser;
     }
 
-    public Date getFinalDate() {
+    public com.example.maxspahn.studentbnb.Date getFinalDate() {
         return finalDate;
     }
 
-    public void setFinalDate(Date finalDate) {
+    public void setFinalDate(com.example.maxspahn.studentbnb.Date finalDate) {
         this.finalDate = finalDate;
     }
 

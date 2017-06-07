@@ -1,10 +1,12 @@
 package com.example.maxspahn.studentbnb;
 
+import java.io.Serializable;
+
 /**
  * Created by Pedro León on 07/06/2017.
  */
 
-public class Date {
+public class Date implements Serializable {
     private int day;
     private int month;
     private int year;

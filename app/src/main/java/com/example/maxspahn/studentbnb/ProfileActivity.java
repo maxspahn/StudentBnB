@@ -70,6 +70,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         getUser((String) getIntent().getStringExtra("username"));
 
+        
+
 
     }
 

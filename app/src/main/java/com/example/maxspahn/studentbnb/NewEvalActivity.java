@@ -32,19 +32,26 @@ public class NewEvalActivity extends Activity {
     User user;
     ArrayList<Trip> allTrips;
     ArrayList<Trip> nonEvalTrips;
+    public String username;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_new_eval);
 
-        getUser((String) getIntent().getStringExtra("username"));
+        username = getIntent().getStringExtra("username");
+
+        getUser(username);
+
+    }
+
+    public void getInfo(User tempuser){
 
         listView = (ListView) findViewById(R.id.listView);
 
-        ArrayList<Trip> host_trips = user.getHost_trips();
+        ArrayList<Trip> host_trips = tempuser.getHost_trips();
         Collections.reverse(host_trips);
-        ArrayList<Trip> visiting_trips = user.getVisiting_trips();
+        ArrayList<Trip> visiting_trips = tempuser.getVisiting_trips();
         Collections.reverse(visiting_trips);
         allTrips = new ArrayList<Trip>();
 
@@ -116,6 +123,7 @@ public class NewEvalActivity extends Activity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 user = dataSnapshot.getValue(User.class);
+                getInfo(user);
             }
 
             @Override

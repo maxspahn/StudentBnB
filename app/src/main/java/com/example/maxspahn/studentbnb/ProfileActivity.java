@@ -31,6 +31,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.w3c.dom.Text;
 
@@ -49,8 +51,8 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView myResidence;
     private ImageView profileImage;
     private ImageView roomImage;
-    private BottomNavigationView bottomNavigationView;
     public User user;
+    private BottomNavigationView bottomNavigationView;
     private Button buttonChange;
     private Button buttonRoom;
     private static Bitmap Image = null;
@@ -59,6 +61,9 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int GALLERY2 = 2;
     private static Bitmap rotateImage = null;
     private static Bitmap rotateImage2 = null;
+    private StorageReference mStorageRef;
+    public String username;
+
 
 
     @Override
@@ -67,10 +72,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_profile);
 
+        username = getIntent().getStringExtra("username");
 
-        getUser((String) getIntent().getStringExtra("username"));
+        getUser(username);
 
-        
+
 
 
     }
@@ -79,9 +85,14 @@ public class ProfileActivity extends AppCompatActivity {
 
         Log.d("CREATION", "Usertemp name : " + userTemp.getName());
 
-        userTemp.setName("maria");
 
-        this.user = userTemp;
+
+        userTemp.setSurname("maria");
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        DatabaseReference ref = database.getReference(userTemp.getUsername());
+        ref.setValue(userTemp);
 
 
 
@@ -99,19 +110,19 @@ public class ProfileActivity extends AppCompatActivity {
                 switch (option) {
                     case "My Trips":
                         Intent intent2 = new Intent(getApplicationContext(), TripsActivity.class);
-                        intent2.putExtra("username", userTemp.getUsername());
+                        intent2.putExtra("username", username);
                         startActivity(intent2);
                         break;
 
                     case "My Info":
                         Intent intent3 = new Intent(getApplicationContext(), InfoActivity.class);
-                        intent3.putExtra("username", userTemp.getUsername());
+                        intent3.putExtra("username", username);
                         startActivity(intent3);
                         break;
 
                     case "Room Availability":
                         Intent intent4 = new Intent(getApplicationContext(), AvailabilityActivity.class);
-                        intent4.putExtra("username", userTemp.getUsername());
+                        intent4.putExtra("username", username);
                         startActivity(intent4);
                         break;
                 }
@@ -281,38 +292,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private User loadUserData() {
-        User newUser1 = new User("Pedro", "Leon", "pleonpita", "pedron", "06959599143", "pleonpita@gmail.com");
-        User newUser2 = new User("Arturo", "Garrido", "arturogc", "arthur", "0782683879", "arturo.garrido.contreras@gmail.com");
-
-        Residence ecp = new Residence("Ecole Centrale", "Paris", "5 Avenue Sully Prudhomme, 92290 Châtenay-Malabry");
-        newUser2.setResidence(ecp);
-        ecp.addUser(newUser2);
-        newUser2.setRoomNumber("E221");
-        Residence sp = new Residence("San Pablo", "Madrid", "Calle de Isaac Peral, 58, 28040 Madrid, Espagne");
-        newUser1.setResidence(sp);
-        sp.addUser(newUser1);
-        newUser1.setRoomNumber("B101");
-
-
-        Trip trip1 = new Trip(new Date(2016, 06, 13), new Date(2016, 06, 20), newUser1, newUser2);
-        trip1.setEvaluation(Evaluation.GOOD);
-        trip1.confirmTrip();
-
-        Trip trip2 = new Trip(new Date(2017, 02, 5), new Date(2017, 02, 8), newUser2, newUser1);
-        trip2.setEvaluation(Evaluation.EXCELLENT);
-        trip2.confirmTrip();
-
-        Trip trip3 = new Trip(new Date(2017, 04, 10), new Date(2017, 04, 15), newUser2, newUser1);
-        trip3.confirmTrip();
-
-        return newUser2;
-
-    }
 
     private void launchSearchRoomActivity(){
         Intent intent = new Intent(this, SearchRoomActivity.class);
-        intent.putExtra("username", user.getUsername());
+        intent.putExtra("username", username);
         startActivity(intent);
     }
 }

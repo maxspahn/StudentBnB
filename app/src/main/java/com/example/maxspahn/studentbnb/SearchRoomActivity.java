@@ -26,8 +26,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 /*
 secondary activity accessed after log in activity
@@ -43,7 +41,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     protected Button initialDateButton;
     protected Button finalDateButton;
     public User user;
-    public HashMap<String, User> users = new HashMap<>();
+    public String username;
 
     private RecyclerView mRecyclerView;
     private RoomAdapter mRoomAdapter; // adapter to fill recycler view with data
@@ -64,24 +62,8 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         initialDateButton = (Button) findViewById(R.id.b_initdate);
         finalDateButton = (Button) findViewById(R.id.b_findate);
 
-        user = new User();
-        String usernameInit = (String) getIntent().getStringExtra("username");
-        System.out.println(usernameInit);
-        getUser(usernameInit);
-
-        //UserThread ut = new UserThread(usernameInit);
-        //ut.start();
-        //try {
-        //    ut.join();
-        //} catch (InterruptedException e) {
-        //    e.printStackTrace();
-        //    System.out.println("Oooojooooooo no funciona el thread");
-        //}
-
-        //user = ut.getUser();
-
-        //System.out.println(user.getName().toString());
-
+        username = getIntent().getStringExtra("username");
+        getUser((String) getIntent().getStringExtra("username"));
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,10 +160,17 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     @Override
     public void onClick(User u) {
         Intent intent = new Intent(this, RoomReservationActivity.class);
-        intent.putExtra("username", user.getUsername());
+        intent.putExtra("user", (Serializable) u);
         startActivity(intent);
 
     }
+
+
+    private void testing (User user){
+        Log.d("CREATION", "username : " + user.getEmail());
+
+    }
+
 
     public void ShowMessage(String message){
         Context context = this;
@@ -190,7 +179,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
 
     private void launchProfileActivity(){
         Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("username2", user.getUsername());
+        intent.putExtra("username", username);
         startActivity(intent);
     }
 
@@ -198,19 +187,16 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         //Get the user.
-        DatabaseReference ref  = database.getReference("users");
-
-        DatabaseReference ref2 = ref.child(username);
+        DatabaseReference ref  = database.getReference(username);
 
         // Read from the database and check if userName fits to password.
-        ref2.addValueEventListener(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                user = (User) dataSnapshot.getValue(User.class);
-                System.out.println("Aaaaaaaaaaaaaaaaaaateeeeenciooooooooooon ");
-                System.out.println(user.getName());
+                user = dataSnapshot.getValue(User.class);
+                testing(user);
             }
 
             @Override
@@ -220,7 +206,6 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
             }
         });
 
-        System.out.println(user.getName());
     }
 
     @Override

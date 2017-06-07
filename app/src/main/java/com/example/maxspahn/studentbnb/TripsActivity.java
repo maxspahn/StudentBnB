@@ -29,19 +29,26 @@ public class TripsActivity extends Activity {
     User user;
     ListView listView;
     Button buttonEval;
+    public String username;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_trips);
 
-        getUser((String) getIntent().getStringExtra("username"));
+        username = getIntent().getStringExtra("username");
+
+        getUser(username);
+
+    }
+
+    public void getInfo(User tempuser){
 
         listView = (ListView) findViewById(R.id.listView);
 
-        ArrayList<Trip> host_trips = user.getHost_trips();
+        ArrayList<Trip> host_trips = tempuser.getHost_trips();
         Collections.reverse(host_trips);
-        ArrayList<Trip> visiting_trips = user.getVisiting_trips(); //1 in Paris
+        ArrayList<Trip> visiting_trips = tempuser.getVisiting_trips(); //1 in Paris
         Collections.reverse(visiting_trips);
         ArrayList<Trip> trips = new ArrayList<Trip>();
 
@@ -89,7 +96,7 @@ public class TripsActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), NewEvalActivity.class);
-                intent.putExtra("username", user.getUsername());
+                intent.putExtra("username", username);
                 startActivity(intent);
             }
         });
@@ -109,6 +116,7 @@ public class TripsActivity extends Activity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 user = dataSnapshot.getValue(User.class);
+                getInfo(user);
             }
 
             @Override

@@ -25,17 +25,26 @@ public class InfoActivity extends AppCompatActivity {
     User user;
     ListView listView;
     Button buttonChange;
+    String username;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         setContentView(R.layout.activity_info);
 
-        getUser((String) getIntent().getStringExtra("username"));
+        username = getIntent().getStringExtra("username");
+
+        getUser(username);
+
+    }
+
+    public void getInfo(User tempuser){
 
         listView = (ListView) findViewById(R.id.listView);
 
-        String[] infoElements = {"Name: " + user.getName() + user.getSurname(), "Username: " + user.getUsername(), "Telephone: " + user.getTelephone(), "Email: " + user.getEmail(), "City: " + user.getResidence().getCity(), "Residence: " + user.getResidence().getName(), "Room: " + user.getRoomNumber()};
+        String[] infoElements = {"Name: " + tempuser.getName() + tempuser.getSurname(), "Username: " + tempuser.getUsername(), "Telephone: " + tempuser.getTelephone(), "Email: " + tempuser.getEmail(), "City: " + tempuser.getResidence().getCity(), "Residence: " + tempuser.getResidence().getName(), "Room: " + tempuser.getRoomNumber()};
 
         ListAdapter infoAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, infoElements);
         listView.setAdapter(infoAdapter);
@@ -48,7 +57,7 @@ public class InfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ChangeProfileActivity.class);
-                intent.putExtra("username", user.getUsername());
+                intent.putExtra("username", username);
                 startActivity(intent);
             }
         });
@@ -68,6 +77,7 @@ public class InfoActivity extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 user = dataSnapshot.getValue(User.class);
+                getInfo(user);
             }
 
             @Override

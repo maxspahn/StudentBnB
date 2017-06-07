@@ -27,7 +27,7 @@ import java.util.Date;
 public class AvailabilityActivity extends FragmentActivity implements AvailabilityAdapter.AvailabilityAdapterOnClickHandler,TimePickerFragment.DateButtonListener {
 
     User user;
-    Date toDelete;
+    com.example.maxspahn.studentbnb.Date toDelete;
 
     protected Button addButton;
     protected Button removeButton;
@@ -125,9 +125,9 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
     private void loadAvailabilityData(User tempuser) {
         showRoomDataView();
 
-        ArrayList<Date> dataToDisplay = new ArrayList<>();
+        ArrayList<com.example.maxspahn.studentbnb.Date> dataToDisplay = new ArrayList<>();
 
-        for(Date d : tempuser.getAvailability()){
+        for(com.example.maxspahn.studentbnb.Date d : user.getAvailability()){
             dataToDisplay.add(d);
         }
 
@@ -144,7 +144,7 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
 
 
     @Override
-    public void onClick(Date d) {
+    public void onClick(com.example.maxspahn.studentbnb.Date d) {
         toDelete = d;
         ShowMessage(d.toString());
     }

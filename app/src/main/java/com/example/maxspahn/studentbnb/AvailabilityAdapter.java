@@ -19,12 +19,12 @@ import java.util.Date;
 
 public class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapter.AvailabilityAdapterViewHolder>  {
 
-    private ArrayList<Date> mAvailabilityData; // array of information to be displayed, setter implemented at the end
+    private ArrayList<com.example.maxspahn.studentbnb.Date> mAvailabilityData; // array of information to be displayed, setter implemented at the end
 
     private final AvailabilityAdapter.AvailabilityAdapterOnClickHandler mOnClickHandler;
 
     public interface AvailabilityAdapterOnClickHandler {
-        void onClick(Date d);
+        void onClick(com.example.maxspahn.studentbnb.Date d);
     }
     /*
     constructor
@@ -45,7 +45,7 @@ public class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapte
         @Override
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
-            Date d = mAvailabilityData.get(adapterPosition);
+            com.example.maxspahn.studentbnb.Date d = mAvailabilityData.get(adapterPosition);
             mOnClickHandler.onClick(d);
         }
     }
@@ -65,7 +65,7 @@ public class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapte
      */
     @Override
     public void onBindViewHolder(AvailabilityAdapter.AvailabilityAdapterViewHolder roomAvailabilityViewHolder, int position) {
-        Date d = mAvailabilityData.get(position);
+        com.example.maxspahn.studentbnb.Date d = mAvailabilityData.get(position);
         roomAvailabilityViewHolder.dateTextView.setText(d.toString());
     }
     /*
@@ -79,7 +79,7 @@ public class AvailabilityAdapter extends RecyclerView.Adapter<AvailabilityAdapte
     /*
     data setter
      */
-    public void setRoomData(ArrayList<Date> userData) {
+    public void setRoomData(ArrayList<com.example.maxspahn.studentbnb.Date> userData) {
         mAvailabilityData = userData;
         notifyDataSetChanged();
     }

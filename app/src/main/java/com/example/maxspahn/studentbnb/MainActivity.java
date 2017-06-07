@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     // if password is correct the new activity is started.
                     if (user.getPassword().equals(passWORD)) {
                         launch(userNAME);
+                        testing(user);
                     }
                     else{
                         toast2 = Toast.makeText(getApplicationContext(), "The password is not correct", Toast.LENGTH_SHORT);
@@ -103,6 +104,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    private void testing (User user){
+        Log.d("CREATION", "username : " + user.getEmail());
     }
 
 

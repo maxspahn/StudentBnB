@@ -15,6 +15,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 /**
  * Created by Arturo on 06/06/2017.
@@ -31,7 +33,9 @@ public class ChangeProfileActivity extends Activity {
     private EditText editEmail;
     private EditText editRoom;
     private Button buttonImage;
+    private StorageReference mStorageRef;
     Toast toast;
+    public String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,12 @@ public class ChangeProfileActivity extends Activity {
 
         setContentView(R.layout.activity_change_profile);
 
-        getUser((String) getIntent().getStringExtra("username"));
+        username = getIntent().getStringExtra("username");
+        getUser(username);
+
+    }
+
+    public void getInfo(final User tempuser){
 
         editName = (EditText) findViewById(R.id.editName);
         editSurname = (EditText) findViewById(R.id.editSurname);
@@ -49,13 +58,14 @@ public class ChangeProfileActivity extends Activity {
         editEmail = (EditText) findViewById(R.id.editEmail);
         editRoom = (EditText) findViewById(R.id.editRoom);
 
-        editName.setHint(user.getName());
-        editSurname.setHint(user.getSurname());
-        editUsername.setHint(user.getUsername());
+        editName.setHint(tempuser.getName());
+        editSurname.setHint(tempuser.getSurname());
+        editUsername.setHint(tempuser.getUsername());
         editPassword.setHint("*********");
-        editTelephone.setHint(user.getTelephone());
-        editEmail.setHint(user.getEmail());
-        editRoom.setHint(user.getRoomNumber());
+        editTelephone.setHint(tempuser.getTelephone());
+        editEmail.setHint(tempuser.getEmail());
+        editRoom.setHint(tempuser.getRoomNumber());
+
 
         buttonImage = (Button) findViewById(R.id.buttonImage);
         buttonImage.setBackgroundColor(getResources().getColor(R.color.colorPrimaryLight));
@@ -63,6 +73,11 @@ public class ChangeProfileActivity extends Activity {
         buttonImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                mStorageRef = FirebaseStorage.getInstance().getReference();
+                DatabaseReference ref = database.getReference(tempuser.getUsername());
+                ref.setValue(tempuser);
 
                 toast = Toast.makeText(getApplicationContext(), "Information Saved", Toast.LENGTH_SHORT);
                 toast.show();
@@ -85,6 +100,7 @@ public class ChangeProfileActivity extends Activity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 user = dataSnapshot.getValue(User.class);
+                getInfo(user);
             }
 
             @Override

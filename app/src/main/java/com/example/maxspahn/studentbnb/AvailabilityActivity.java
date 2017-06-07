@@ -34,6 +34,8 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
     protected Button initialDateButton;
     protected Button finalDateButton;
 
+    public String username;
+
     private RecyclerView mRecyclerView;
     private AvailabilityAdapter mRoomAdapter; // adapter to fill recycler view with data
 
@@ -45,7 +47,15 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avalability);
 
-        getUser((String) getIntent().getStringExtra("username"));
+        username = getIntent().getStringExtra("usernam");
+
+        getUser(username);
+
+
+    }
+
+    public void getInfo(final User tempuser){
+
         toDelete = null;
 
         /*
@@ -60,8 +70,8 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
             @Override
             public void onClick(View v) {
                 try{
-                    user.addRoomAvailability(initialDateButton.getText().toString(),finalDateButton.getText().toString());
-                    loadAvailabilityData();
+                    tempuser.addRoomAvailability(initialDateButton.getText().toString(),finalDateButton.getText().toString());
+                    loadAvailabilityData(tempuser);
                 }catch(ParseException e){
                     System.out.println(e.getMessage());
                 }
@@ -74,8 +84,8 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
                 if(toDelete == null){
                     ShowMessage("Click on availabilities");
                 }else{
-                    user.getAvailability().remove(toDelete);
-                    loadAvailabilityData();
+                    tempuser.getAvailability().remove(toDelete);
+                    loadAvailabilityData(tempuser);
                 }
             }
         });
@@ -109,15 +119,15 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
 
         mRecyclerView.setAdapter(mRoomAdapter);
 
-        loadAvailabilityData();
+        loadAvailabilityData(tempuser);
     }
 
-    private void loadAvailabilityData() {
+    private void loadAvailabilityData(User tempuser) {
         showRoomDataView();
 
         ArrayList<Date> dataToDisplay = new ArrayList<>();
 
-        for(Date d : user.getAvailability()){
+        for(Date d : tempuser.getAvailability()){
             dataToDisplay.add(d);
         }
 
@@ -157,6 +167,7 @@ public class AvailabilityActivity extends FragmentActivity implements Availabili
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 user = dataSnapshot.getValue(User.class);
+                getInfo(user);
             }
 
             @Override

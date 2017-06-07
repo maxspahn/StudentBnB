@@ -28,6 +28,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 import java.util.List;
@@ -47,6 +49,9 @@ public class RoomReservationActivity extends FragmentActivity implements OnMapRe
     String[] finald;
     Date dateini;
     Date datefin;
+
+
+    private StorageReference mStorageRef;
 
     Button contactButton;
 
@@ -78,6 +83,13 @@ public class RoomReservationActivity extends FragmentActivity implements OnMapRe
                 Trip trip = new Trip(dateini, datefin, userBooker, userHoster);
                 userHoster.addHost_trip(trip);
                 userBooker.addVisiting_trip(trip);
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                mStorageRef = FirebaseStorage.getInstance().getReference();
+                DatabaseReference ref1 = database.getReference(userHoster.getUsername());
+                ref1.setValue(userHoster);
+                DatabaseReference ref2 = database.getReference(userBooker.getUsername());
+                ref2.setValue(userBooker);
 
                 ShowMessage("Room reserved");
             }

@@ -18,6 +18,7 @@
         <EditText
         android:id="@+id/usernameL"
         android:hint="username"
+            android:textColor="@color/white"
             android:textColorHint="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -25,6 +26,7 @@
         <EditText
             android:id="@+id/passwordL"
             android:hint="password"
+            android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:password="true"
             android:layout_width="wrap_content"

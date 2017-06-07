@@ -16,6 +16,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.HashMap;
+
 /**
  * Created by maxspahn on 06/06/17.
  */
@@ -92,9 +94,10 @@ public class RegisterActivity extends Activity {
         String passwordT2 = password2.getText().toString();
 
         if(passwordT.equals(passwordT2)) {
+            HashMap<String,User> users = new HashMap<>();
             User tempUser = new User(nameT, surnameT, usernameT, passwordT, telT, emailT);
-            DatabaseReference ref = database.getReference(tempUser.getUsername());
-            ref.setValue(tempUser);
+            DatabaseReference ref = database.getReference("users");
+            ref.setValue(users);
             freeFields();
         }
         else{

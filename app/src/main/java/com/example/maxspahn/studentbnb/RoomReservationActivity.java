@@ -60,7 +60,7 @@ public class RoomReservationActivity extends FragmentActivity implements OnMapRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_reservation);
         String bookerAndHoster = (String) getIntent().getStringExtra("username");
-        String[] s = bookerAndHoster.split("/");
+        String[] s = bookerAndHoster.split("-");
         getUserBooker(s[0]);
         getUserHoster(s[1]);
         initDate = s[2];
@@ -90,7 +90,7 @@ public class RoomReservationActivity extends FragmentActivity implements OnMapRe
                 ref1.setValue(userHoster);
                 DatabaseReference ref2 = database.getReference(userBooker.getUsername());
                 ref2.setValue(userBooker);
-                
+
                 ShowMessage("Room reserved");
             }
         });

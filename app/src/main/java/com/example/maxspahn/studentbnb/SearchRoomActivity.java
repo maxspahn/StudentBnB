@@ -158,7 +158,9 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     @Override
     public void onClick(User u) {
         Intent intent = new Intent(this, RoomReservationActivity.class);
-        intent.putExtra("username",  booker.getUsername() + "/" + u.getUsername() + "/" + initDate + "/" + finalDate);
+        initDate = initialDateButton.getText().toString();
+        finalDate = finalDateButton.getText().toString();
+        intent.putExtra("username",  booker.getUsername() + "-" + u.getUsername() + "-" + initDate + "-" + finalDate);
         startActivity(intent);
 
     }

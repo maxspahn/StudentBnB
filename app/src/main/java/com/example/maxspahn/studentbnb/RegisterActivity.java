@@ -16,8 +16,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.HashMap;
-
 /**
  * Created by maxspahn on 06/06/17.
  */
@@ -34,7 +32,6 @@ public class RegisterActivity extends Activity {
     public EditText telephone;
     public EditText name;
     private StorageReference mStorageRef;
-    public HashMap<String, User> users = new HashMap<>();
 
 
     @Override
@@ -94,25 +91,10 @@ public class RegisterActivity extends Activity {
         String passwordT = password1.getText().toString();
         String passwordT2 = password2.getText().toString();
 
-
         if(passwordT.equals(passwordT2)) {
-            DatabaseReference ref = database.getReference("users");
-            ref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    // This method is called once with the initial value and again
-                    // whenever data at this location is updated.
-                    users = (HashMap<String, User>) dataSnapshot.getValue(HashMap.class);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    // Failed to read value
-                    Log.w("CREATION", "Failed to read value.", error.toException());
-                }
-            });
-            users.put(usernameT, new User(nameT, surnameT, usernameT, passwordT, telT, emailT, new Residence("Ecole Centrale", "Paris", "5 Avenue Sully Prudhomme")));
-            ref.setValue(users);
+            User tempUser = new User(nameT, surnameT, usernameT, passwordT, telT, emailT);
+            DatabaseReference ref = database.getReference(tempUser.getUsername());
+            ref.setValue(tempUser);
             freeFields();
         }
         else{

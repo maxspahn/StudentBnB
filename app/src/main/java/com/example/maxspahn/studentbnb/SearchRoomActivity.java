@@ -196,7 +196,6 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 user = dataSnapshot.getValue(User.class);
-                testing(user);
             }
 
             @Override

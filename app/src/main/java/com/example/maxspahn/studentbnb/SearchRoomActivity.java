@@ -26,7 +26,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 /*
 secondary activity accessed after log in activity
@@ -42,6 +41,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
     protected Button initialDateButton;
     protected Button finalDateButton;
     public User user;
+    public String username;
 
     private RecyclerView mRecyclerView;
     private RoomAdapter mRoomAdapter; // adapter to fill recycler view with data
@@ -62,6 +62,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
         initialDateButton = (Button) findViewById(R.id.b_initdate);
         finalDateButton = (Button) findViewById(R.id.b_findate);
 
+        username = getIntent().getStringExtra("username");
         getUser((String) getIntent().getStringExtra("username"));
 
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +169,13 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
 
     }
 
+
+    private void testing (User user){
+        Log.d("CREATION", "username : " + user.getEmail());
+
+    }
+
+
     public void ShowMessage(String message){
         Context context = this;
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
@@ -175,6 +183,7 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
 
     private void launchProfileActivity(){
         Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("username", username);
         startActivity(intent);
     }
 
@@ -191,7 +200,6 @@ public class SearchRoomActivity extends FragmentActivity implements RoomAdapterO
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 user = dataSnapshot.getValue(User.class);
-                System.out.println(user.getUsername());
             }
 
             @Override

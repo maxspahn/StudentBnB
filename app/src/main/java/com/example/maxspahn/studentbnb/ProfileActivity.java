@@ -67,15 +67,23 @@ public class ProfileActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_profile);
 
+
         getUser((String) getIntent().getStringExtra("username"));
 
-        System.out.println(user.getName());
+        
 
-        try {
-            TimeUnit.SECONDS.sleep(3);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+    }
+
+    public void getInfo(final User userTemp){
+
+        Log.d("CREATION", "Usertemp name : " + userTemp.getName());
+
+        userTemp.setName("maria");
+
+        this.user = userTemp;
+
+
 
         listView = (ListView) findViewById(R.id.listView);
 
@@ -91,19 +99,19 @@ public class ProfileActivity extends AppCompatActivity {
                 switch (option) {
                     case "My Trips":
                         Intent intent2 = new Intent(getApplicationContext(), TripsActivity.class);
-                        intent2.putExtra("username", user.getUsername());
+                        intent2.putExtra("username", userTemp.getUsername());
                         startActivity(intent2);
                         break;
 
                     case "My Info":
                         Intent intent3 = new Intent(getApplicationContext(), InfoActivity.class);
-                        intent3.putExtra("username", user.getUsername());
+                        intent3.putExtra("username", userTemp.getUsername());
                         startActivity(intent3);
                         break;
 
                     case "Room Availability":
                         Intent intent4 = new Intent(getApplicationContext(), AvailabilityActivity.class);
-                        intent4.putExtra("username", user.getUsername());
+                        intent4.putExtra("username", userTemp.getUsername());
                         startActivity(intent4);
                         break;
                 }
@@ -124,10 +132,10 @@ public class ProfileActivity extends AppCompatActivity {
         buttonRoom = (Button) findViewById(R.id.buttonRoom);
 
 
-        nameText.setText(user.getName() + " " + user.getSurname());
+        nameText.setText(userTemp.getName() + " " + userTemp.getSurname());
         myResidence.setText("My Room");
-        residenceName.setText(user.getResidence().getName());
-        residenceCity.setText(user.getResidence().getCity());
+        residenceName.setText(userTemp.getResidence().getName());
+        residenceCity.setText(userTemp.getResidence().getCity());
         //TODO set the images retrieved from the user.
 
 
@@ -241,10 +249,17 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void getUser(String username){
+
+        Log.d("CREATION", "in get user in profil, ref : ");
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        Log.d("CREATION", "in get user in profil, ref " + username);
 
         //Get the user.
         DatabaseReference ref  = database.getReference(username);
+
+        Log.d("CREATION", "in get user in profil, ref : " + ref.toString());
 
         // Read from the database and check if userName fits to password.
         ref.addValueEventListener(new ValueEventListener() {
@@ -253,6 +268,8 @@ public class ProfileActivity extends AppCompatActivity {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 user = dataSnapshot.getValue(User.class);
+                Log.d("CREATION", "username : " + user.getEmail());
+                getInfo(user);
             }
 
             @Override

@@ -25,7 +25,7 @@ public class User implements Serializable{
     private String telephone;
     private String email;
     private String roomNumber;
-    private ArrayList<com.example.maxspahn.studentbnb.Date> availability;
+    private ArrayList<com.example.maxspahn.studentbnb.Date> availability = new ArrayList<>();
     private Residence residence;
     //TODO save user pictures information as attribute to be displayed in App Activities
     private ArrayList<Trip> host_trips = new ArrayList<>();
